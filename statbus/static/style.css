@@ -1,0 +1,37 @@
+html, body {
+    font-family: Helvetica, sans-serif;
+    height: 100%;
+    margin: 0;
+}
+body { 
+	display:flex; 
+	flex-direction:column; 
+	justify-content: center;
+	align-items: center;
+}
+a {
+	color: gray;
+	text-decoration: none;
+}
+a:hover {
+	color: silver;
+}
+.header {
+	font-size: 150%;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.container {
+	text-align: center;
+}
+.left {
+	text-align: left;
+}
+.footer {
+	margin-top: auto;
+	height: 30px;
+	width: 100%;
+	text-align: center;
+	line-height: 150%;
+	border-top: 1px solid black;
+}

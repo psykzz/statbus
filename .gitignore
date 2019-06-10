@@ -1,0 +1,6 @@
+
+config/production\.ini
+
+__pycache__
+statbus/config/.env
+venv
