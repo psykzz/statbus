@@ -6,15 +6,17 @@ from playhouse.flask_utils import FlaskDB
 
 db_wrapper = FlaskDB()
 
-''' Enum field hack
+""" Enum field hack
 This isn't supported by peewee but easy enough to add
-'''
+"""
+
+
 class KeyTypeEnum(Enum):
-    TEXT = 'text'
-    AMOUNT = 'amount'
-    TALLY = 'tally'
-    NESTED = 'nested tally'
-    ASSOCIATIVE = 'associative'
+    TEXT = "text"
+    AMOUNT = "amount"
+    TALLY = "tally"
+    NESTED = "nested tally"
+    ASSOCIATIVE = "associative"
 
 
 class EnumField(CharField):
@@ -34,7 +36,7 @@ class EnumField(CharField):
         return self.choices(type(list(self.choices)[0].value)(value))
 
 
-'''
+"""
 MariaDB [tgmc]> describe feedback;
 +----------+------------------------------------------------------------+------+-----+---------+----------------+
 | Field    | Type                                                       | Null | Key | Default | Extra          |
@@ -47,7 +49,9 @@ MariaDB [tgmc]> describe feedback;
 | key_type | enum('text','amount','tally','nested tally','associative') | NO   |     | NULL    |                |
 | json     | longtext                                                   | NO   |     | NULL    |                |
 +----------+------------------------------------------------------------+------+-----+---------+----------------+
-'''
+"""
+
+
 class Feedback(db_wrapper.Model):
     id = IntegerField(unique=True)
     datetime = DateTimeField()
