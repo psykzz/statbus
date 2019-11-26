@@ -5,4 +5,5 @@ flask-login
 peewee
 pymysql
 python-dotenv
+requests
 uwsgi
