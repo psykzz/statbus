@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, request, abort
 from playhouse.flask_utils import PaginatedQuery
 
 from statbus.database import Round
-from statbus.cache import cache
+from statbus.ext import cache
 
 
 bp = Blueprint("rounds", __name__)
@@ -12,7 +12,7 @@ bp = Blueprint("rounds", __name__)
 
 @bp.route("/round")
 @bp.route("/rounds")
-@cache.cached(timeout=60)
+@cache.cached()
 def index():
     rounds = Round.select().order_by(Round.id.desc())
     pages = PaginatedQuery(rounds, 10)
@@ -20,7 +20,7 @@ def index():
 
 
 @bp.route("/rounds/<int:round_id>")
-@cache.cached(timeout=60)
+@cache.cached()
 def detail(round_id):
     round_info = Round.select().where(Round.id == round_id).first()
     if not round_info:
@@ -29,7 +29,7 @@ def detail(round_id):
 
 
 @bp.route("/rounds/winrates")
-@cache.cached(timeout=60)
+@cache.cached()
 def recent_winrates():
     rounds = (
         Round.select(Round.game_mode, Round.game_mode_result, Round.map_name)

@@ -13,6 +13,16 @@ from ..utils.tg_auth import Auth
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
+def require_auth(redirect=None):
+    def inner(f):
+        if "auth.token" not in session:
+            if redirect:
+                return redirect(url_for(endpoint))
+            else:
+                return abort(401)
+        f()
+    return inner
+
 
 @bp.before_app_request
 def ensure_tg_auth():
@@ -22,7 +32,9 @@ def ensure_tg_auth():
 
 
 @bp.route("/")
-def index():
+def login():
+    if "auth.token" in session:
+        return redirect(url_for(".userinfo"))
     # Create session
     redirect_uri = url_for(".callback", _external=True)
     tg_session = g.tg_auth.generate_session(redirect_uri)
@@ -37,7 +49,7 @@ def index():
 def callback():
     if "auth.token" not in session:
         session.clear()
-        redirect(".index")
+        return redirect(".login")
     private_token = session["auth.token"]
     session["userinfo"] = g.tg_auth.get_user_data(private_token)
 
@@ -45,6 +57,7 @@ def callback():
 
 
 @bp.route("/userinfo")
+@require_auth('auth.login')
 def userinfo():
     return jsonify(session["userinfo"])
 

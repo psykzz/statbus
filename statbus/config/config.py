@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import os
+import tempfile
 
 DATABASE = {
     "engine": "peewee.MySQLDatabase",
@@ -13,7 +14,14 @@ DATABASE = {
     "passwd": os.getenv("DATABASE_PASSWORD", "password"),
 }
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY", os.urandom(64))
 
 ## caching
-CACHE_TYPE = 'simple' ## in-memory
+CACHE_TYPE = "filesystem"
+CACHE_DEFAULT_TIMEOUT = 300
+CACHE_DIR = tempfile.mkdtemp()
+
+## Session
+SESSION_TYPE = 'filesystem'
+SESSION_FILE_DIR = tempfile.mkdtemp()
+

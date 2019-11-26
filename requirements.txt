@@ -1,5 +1,7 @@
 flask
 flask-caching
+flask-session
+flask-login
 peewee
 pymysql
 python-dotenv

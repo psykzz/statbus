@@ -5,14 +5,14 @@ from playhouse.flask_utils import PaginatedQuery
 from peewee import fn, JOIN
 
 from statbus.database import PollQuestion, PollOption, PollVote, PollTextReply
-from statbus.cache import cache
+from statbus.ext import cache
 
 bp = Blueprint("polls", __name__)
 
 
 @bp.route("/vote")
 @bp.route("/votes")
-@cache.cached(timeout=60)
+@cache.cached()
 def index():
     polls = PollQuestion.select(
         PollQuestion.id,
@@ -27,7 +27,7 @@ def index():
 
 
 @bp.route("/vote/<int:poll_id>")
-@cache.cached(timeout=60)
+@cache.cached()
 def detail(poll_id):
     poll = PollQuestion.select().where(PollQuestion.id == poll_id).first()
     if not poll or poll.is_hidden():

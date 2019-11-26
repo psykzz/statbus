@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 
 from statbus.database.util import db_wrapper
-from statbus.cache import cache
+from statbus.ext  import cache, session
 from statbus.routes import frontpage, auth, polls, rounds
 
 
@@ -14,7 +14,8 @@ def create_app(test_config=None):
     if test_config:
         app.config.update(test_config)
 
-    # Cache and db setuppip
+    # Setup extentions
+    session.init_app(app)
     cache.init_app(app)
     db_wrapper.init_app(app)
 

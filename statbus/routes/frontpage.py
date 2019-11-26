@@ -5,4 +5,4 @@ bp = Blueprint("frontpage", __name__)
 
 @bp.route("/")
 def index():
-    return redirect(url_for('rounds.index'))
+    return redirect(url_for("rounds.index"))
