@@ -23,9 +23,6 @@ class Auth(object):
         return f"https://tgstation13.org/phpBB/oauth.php?session_public_token={public_token}"
 
     def get_user_data(self, session_private_token):
-        print(
-            f"https://tgstation13.org/phpBB/oauth_get_session_info.php?site_private_token={self.private_site_key}&session_private_token={session_private_token}"
-        )
         api_res = self.api.get(
             f"https://tgstation13.org/phpBB/oauth_get_session_info.php?site_private_token={self.private_site_key}&session_private_token={session_private_token}"
         ).json()
