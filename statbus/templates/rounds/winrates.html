@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block header %}
+	Winrates
+{% endblock header %}
+{% block body %}
+	{{rounds}}<br>
+	{% for round in rounds %}
+		{{round}}
+	{% endfor %}
+	<div>
+	{% if winrates %}
+	{% for winrate_type in winrates %}
+		{% for winrate in winrate_type %}
+			{{winrate}}
+		{% endfor %}
+	{% endfor %}	
+	</div>
+	{% endif %}
+{% endblock body %}

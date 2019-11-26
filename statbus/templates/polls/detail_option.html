@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block header %}
+	Poll #{{poll.id}}
+{% endblock header %}
+{% block body %}
+	<div class="left">
+		<p><b>Details about Poll #{{poll.id}}:</b></p>
+		{% include "polls/poll_info.html" %}
+		<br>
+		{% for vote in votes %}
+			<b>{{loop.index}}.</b> {{vote.text}} | {{vote.votes}} votes ({{percentages[loop.index - 1]}}%)<br>
+		{% endfor %}
+	</div>
+{% endblock body %}

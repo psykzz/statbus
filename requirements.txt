@@ -1,4 +1,5 @@
 flask
+flask-caching
 peewee
 pymysql
 python-dotenv

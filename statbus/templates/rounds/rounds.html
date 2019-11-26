@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% import 'rounds/_round.html' as round %}
+
+{% block header %}
+	Rounds
+{% endblock header %}
+{% block body %}
+	{% for object in pages.get_object_list() %}
+		{{ round.summary(object) }}
+	{% endfor %}
+{% include "pages.html" %}
+{% endblock body %}

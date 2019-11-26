@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block header %}
+Polls
+{% endblock header %}
+{% block body %}
+<div>
+	{% for poll in pages.get_object_list() %}
+		<b>Poll #{{poll.id}}</b> {{poll.question}} | <a href='{{poll.link_url}}'>View</a><br>
+	{% endfor %}
+</div>
+{% include "pages.html" %}
+{% endblock body %}

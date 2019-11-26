@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 
-bp = Blueprint("polls", __name__)
+bp = Blueprint("frontpage", __name__)
 
 
 @bp.route("/")

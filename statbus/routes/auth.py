@@ -25,11 +25,9 @@ def ensure_tg_auth():
 def index():
     # Create session
     redirect_uri = url_for(".callback", _external=True)
-    print(redirect_uri)
     tg_session = g.tg_auth.generate_session(redirect_uri)
     if tg_session is None:
         return redirect(url_for(".error"))
-        print(tg_session)
     session["auth.token"] = tg_session.session_private_token
     # Redirect for access
     return redirect(g.tg_auth.redirect(tg_session.session_public_token))

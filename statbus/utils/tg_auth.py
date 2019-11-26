@@ -16,7 +16,6 @@ class Auth(object):
         ).json()
 
         if api_res.get("status") != "OK":
-            print(api_res)
             return
         return Session.from_data(api_res)
 
@@ -38,7 +37,6 @@ class Session(object):
 
     @classmethod
     def from_data(cls, data):
-        print(data)
         session = cls()
         session.session_public_token = urllib.parse.quote(
             data.get("session_public_token", "")

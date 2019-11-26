@@ -1,0 +1,10 @@
+<b>Poll start date:</b> {{poll.starttime}}<br>
+<b>Poll end date:</b> {{poll.endtime}}<br>
+{% if datetime.now() > poll.endtime %}
+<b>The poll has ended. {{datetime.now() - poll.endtime}} ago</b><br>
+{% else %}
+<b>Time remaining:</b> {{poll.endtime - poll.starttime}}<br>
+{% endif %}
+<b>Started by:</b> {{poll.createdby_ckey}}<br>
+<br>
+<b>Question:</b> "{{poll.question}}"<br>

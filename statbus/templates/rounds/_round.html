@@ -1,0 +1,16 @@
+{% macro summary(round) -%}
+<div class="row">
+    <div class="col-1">
+        <h1>#{{round.id}}</h1>
+    </div>
+    <div class="col-10">
+        <ul>
+            <li>Mode: {{round.game_mode}}</li>
+            <li>Map: {{round.map_name}}</li>
+            <li>Ship: {{round.ship_name}}</li>
+            <li> {{round.status}} - {{round.game_mode_result}}</li>
+        </ul>
+    </div>
+    <div class="col-1"><a href="{{round.link_url}}" class="btn btn-primary">View</a></div>
+</div>
+{%- endmacro %}
