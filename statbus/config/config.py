@@ -14,3 +14,6 @@ DATABASE = {
 }
 
 SECRET_KEY = os.getenv("SECRET_KEY")
+
+## caching
+CACHE_TYPE = 'simple' ## in-memory

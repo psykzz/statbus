@@ -9,7 +9,7 @@ bp = Blueprint("rounds", __name__)
 
 @bp.route("/round")
 @bp.route("/rounds")
-def all():
+def index():
     rounds = Round.select().order_by(Round.id.desc())
     pages = PaginatedQuery(rounds, 10)
     return render_template("rounds/rounds.html", pages=pages)

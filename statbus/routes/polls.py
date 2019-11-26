@@ -9,7 +9,7 @@ bp = Blueprint("polls", __name__)
 
 @bp.route("/vote")
 @bp.route("/votes")
-def polls():
+def index():
     polls = PollQuestion.select(
         PollQuestion.id,
         PollQuestion.question,
