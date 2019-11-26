@@ -18,7 +18,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", os.urandom(64))
 
 ## caching
 CACHE_TYPE = "filesystem"
-CACHE_DEFAULT_TIMEOUT = 300
+CACHE_DEFAULT_TIMEOUT = 1
 CACHE_DIR = tempfile.mkdtemp()
 
 ## Session

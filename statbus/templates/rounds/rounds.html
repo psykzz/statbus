@@ -2,12 +2,25 @@
 
 {% import 'rounds/_round.html' as round %}
 
+{% block navigation %}
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="/">Home</a></li>
+		<li class="breadcrumb-item active" aria-current="page">Rounds</li>
+	</ol>
+</nav>
+{% endblock navigation %} 
 {% block header %}
 	Rounds
 {% endblock header %}
 {% block body %}
+	<div class="row justify-content-around">
 	{% for object in pages.get_object_list() %}
-		{{ round.summary(object) }}
+		<div class="col-5 card">
+			{{ round.summary(object) }}
+		</div>
 	{% endfor %}
+	</div>
+
 {% include "pages.html" %}
 {% endblock body %}

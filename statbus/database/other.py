@@ -82,6 +82,12 @@ class Round(DBModel):
     end_state = CharField(max_length=64, null=True)
     map_name = CharField(max_length=32, null=True)
 
+    @classmethod
+    def get_recent(cls, days=7, limit=5):
+        today = datetime.date.today()
+        since = today - datetime.timedelta(days=days)
+        return cls.select().where(cls.end_datetime > since).order_by(cls.id.desc()).limit(limit)
+
     @property
     def ship_name(self):
         fb = self.feedback.where(Feedback.key_name == "ship_map").first()

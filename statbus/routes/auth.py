@@ -15,11 +15,11 @@ bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 def require_auth(redirect=None):
     def inner(f):
-        if "auth.token" not in session:
-            if redirect:
-                return redirect(url_for(endpoint))
-            else:
-                return abort(401)
+        # if "auth.token" not in session:
+        #     if redirect:
+        #         return redirect(url_for(endpoint))
+        #     else:
+        #         return abort(401)
         f()
     return inner
 
@@ -57,7 +57,6 @@ def callback():
 
 
 @bp.route("/userinfo")
-@require_auth('auth.login')
 def userinfo():
     return jsonify(session["userinfo"])
 
