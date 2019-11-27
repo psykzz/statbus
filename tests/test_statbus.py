@@ -1,12 +1,13 @@
+import tempfile
 import pytest
-
 from statbus import create_app
 
 
 @pytest.fixture
 def client():
+    self.db_fd, self.db_name = tempfile.mkstemp()
     config = {}
-    config["DATABASE"] = {"name": "./testing.db", "engine": "peewee.SqliteDatabase"}
+    config["DATABASE"] = {"name": self.db_name, "engine": "peewee.SqliteDatabase"}
     config["TESTING"] = True
 
     app = create_app(config)
@@ -14,7 +15,13 @@ def client():
 
     yield client
 
-    # Cleanup if required
+    # Cleanup
+    os.close(self.db_fd)
+    os.unlink(self.db_name)
+
+
+def test_assert(self):
+    assert True
 
 
 def test_homepage(client):
