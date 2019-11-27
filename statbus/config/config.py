@@ -27,6 +27,6 @@ SESSION_FILE_DIR = tempfile.mkdtemp()
 
 
 ## Social links
-SOCIAL_LINK_GITHUB = 'https://github.com/tgstation/TerraGov-Marine-Corps'
-SOCIAL_LINK_DISCORD = 'https://discord.gg/2dFpfNE'
-SOCIAL_LINK_GETTING_STARTED = 'https://tgstation13.org/wiki/TGMC'
+SOCIAL_LINK_GITHUB = os.getenv('SOCIAL_LINK_GITHUB', 'https://github.com/tgstation/TerraGov-Marine-Corps')
+SOCIAL_LINK_DISCORD = os.getenv('SOCIAL_LINK_DISCORD', 'https://discord.gg/2dFpfNE')
+SOCIAL_LINK_GETTING_STARTED = os.getenv('SOCIAL_LINK_GETTING_STARTED', 'https://tgstation13.org/wiki/TGMC')
