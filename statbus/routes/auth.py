@@ -27,7 +27,7 @@ def require_auth(redirect=None):
 @bp.before_app_request
 def ensure_tg_auth():
     if "tg_auth" not in g:
-        key = current_app.config["SECRET_KEY"].encode("utf-8")
+        key = current_app.config["SECRET_KEY"]
         g.tg_auth = Auth(key)
 
 

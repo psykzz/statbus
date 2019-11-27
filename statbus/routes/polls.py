@@ -10,27 +10,20 @@ from statbus.ext import cache
 bp = Blueprint("polls", __name__)
 
 
-@bp.route("/vote")
-@bp.route("/votes")
+@bp.route("/poll")
+@bp.route("/polls")
 @cache.cached()
 def index():
-    polls = PollQuestion.select(
-        PollQuestion.id,
-        PollQuestion.question,
-        PollQuestion.adminonly,
-        PollQuestion.dontshow,
-    ).where(PollQuestion.adminonly == False, PollQuestion.dontshow == False)
-
+    polls = PollQuestion.select().where(PollQuestion.adminonly == False, PollQuestion.dontshow == False)
     pages = PaginatedQuery(polls, 25)
-
     return render_template("polls/polls.html", pages=pages)
 
 
-@bp.route("/vote/<int:poll_id>")
+@bp.route("/poll/<int:poll_id>")
 @cache.cached()
 def detail(poll_id):
     poll = PollQuestion.select().where(PollQuestion.id == poll_id).first()
-    if not poll or poll.is_hidden():
+    if not poll or poll.is_hidden:
         abort(404)
 
     if poll.polltype == "OPTION":
@@ -47,7 +40,7 @@ def detail(poll_id):
 
         return render_template(
             "polls/detail_option.html",
-            poll=poll,
+            current_poll=poll,
             votes=votes,
             percentages=percentages,
             datetime=datetime,

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% import 'rounds/_round.html' as round %}
+{% import 'polls/_poll.html' as poll %}
 
 {% block body %}
 <div class="jumbotron">
@@ -12,9 +13,9 @@
 <hr />
 
 <div>
-    <h2>Active Polls</h2>
+    <h2>Active Polls <span class="small text-right"><a href="{{url_for('polls.index')}}">view all</a></span></h2>
     <div>
-        <em>Make sure to connect to the server to vote!</em>
+        <span class="badge badge-secondary">Make sure to connect to the server to vote!</span>
         {% for object in active_polls %}
             {{ poll.summary(object) }}
         {% else %}
@@ -28,7 +29,6 @@
 <div>
     <div>
         <h2>Recent rounds <span class="small text-right"><a href="{{url_for('rounds.index')}}">view all</a></span></h2>
-        
     </div>
     
     <div>
@@ -38,5 +38,5 @@
             <blockquote>No recent rounds</blockquote>
         {% endfor %}
     </div>
-</div>>
+</div>
 {% endblock %}

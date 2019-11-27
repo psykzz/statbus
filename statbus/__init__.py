@@ -2,7 +2,7 @@ from flask import Flask, render_template
 
 from statbus.database.util import db_wrapper
 from statbus.ext  import cache, session
-from statbus.routes import frontpage, auth, polls, rounds
+from statbus.routes import frontpage, social, auth, polls, rounds
 
 
 def create_app(test_config=None):
@@ -24,6 +24,7 @@ def create_app(test_config=None):
 
     # Blueprints
     app.register_blueprint(frontpage.bp)
+    app.register_blueprint(social.bp)
     app.register_blueprint(auth.bp)
     app.register_blueprint(polls.bp)
     app.register_blueprint(rounds.bp)

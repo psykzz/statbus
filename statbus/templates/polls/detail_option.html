@@ -1,11 +1,24 @@
 {% extends "base.html" %}
+{% import 'polls/_poll.html' as poll %}
+
+{% block navigation %}
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="/">Home</a></li>
+		<li class="breadcrumb-item"><a href="/polls">Polls</a></li>
+		<li class="breadcrumb-item active" aria-current="page">Poll #{{current_poll.id}}</li>
+	</ol>
+</nav>
+{% endblock navigation %} 
+
 {% block header %}
-	Poll #{{poll.id}}
+	Poll #{{current_poll.id}}
 {% endblock header %}
+
 {% block body %}
 	<div class="left">
-		<p><b>Details about Poll #{{poll.id}}:</b></p>
-		{% include "polls/poll_info.html" %}
+		<p><b>Details about Poll #{{current_poll.id}}:</b></p>	
+		{{ poll.detail(current_poll) }}
 		<br>
 		{% for vote in votes %}
 			<b>{{loop.index}}.</b> {{vote.text}} | {{vote.votes}} votes ({{percentages[loop.index - 1]}}%)<br>

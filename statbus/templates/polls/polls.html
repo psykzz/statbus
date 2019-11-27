@@ -1,12 +1,28 @@
 {% extends "base.html" %}
+
+{% import 'polls/_poll.html' as poll %}
+
+{% block navigation %}
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="/">Home</a></li>
+		<li class="breadcrumb-item active" aria-current="page">Polls</li>
+	</ol>
+</nav>
+{% endblock navigation %} 
+
 {% block header %}
-Polls
+	Polls
 {% endblock header %}
+
 {% block body %}
-<div>
-	{% for poll in pages.get_object_list() %}
-		<b>Poll #{{poll.id}}</b> {{poll.question}} | <a href='{{poll.link_url}}'>View</a><br>
+	<div class="row justify-content-around">
+	{% for object in pages.get_object_list() %}
+		<div class="col-12 card">
+			{{ poll.summary(object) }}
+		</div>
 	{% endfor %}
-</div>
+	</div>
+
 {% include "pages.html" %}
 {% endblock body %}

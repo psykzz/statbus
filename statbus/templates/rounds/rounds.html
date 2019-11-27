@@ -10,17 +10,18 @@
 	</ol>
 </nav>
 {% endblock navigation %} 
+
 {% block header %}
 	Rounds
 {% endblock header %}
+
 {% block body %}
 	<div class="row justify-content-around">
 	{% for object in pages.get_object_list() %}
-		<div class="col-5 card">
+		<div class="col-12 card">
 			{{ round.summary(object) }}
 		</div>
 	{% endfor %}
 	</div>
-
 {% include "pages.html" %}
 {% endblock body %}

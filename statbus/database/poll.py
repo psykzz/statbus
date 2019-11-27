@@ -1,3 +1,4 @@
+import datetime
 from flask import url_for
 from peewee import *
 
@@ -34,6 +35,21 @@ class PollQuestion(DBModel):
     createdby_ip = IntegerField()
     dontshow = IntegerField()
 
+    @classmethod
+    def get_active(cls, limit=3):
+        return cls.select().where(cls.adminonly == False, cls.dontshow == False).limit(limit)
+
+    @property
+    def poll_status(self):
+        if not self.endtime:
+            return "This poll doesn't end"
+        time_until = abs((datetime.datetime.now() - self.endtime).days)
+        if datetime.datetime.now() > self.endtime:
+            return f"The poll has ended. {time_until} day(s) ago"
+        else:
+            return f"Time remaining: {time_until} day(s)"
+
+    @property
     def is_hidden(self):
         return self.adminonly or self.dontshow
 
