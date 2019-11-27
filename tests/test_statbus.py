@@ -5,9 +5,9 @@ from statbus import create_app
 
 @pytest.fixture
 def client():
-    self.db_fd, self.db_name = tempfile.mkstemp()
+    db_fd, db_name = tempfile.mkstemp()
     config = {}
-    config["DATABASE"] = {"name": self.db_name, "engine": "peewee.SqliteDatabase"}
+    config["DATABASE"] = {"name": db_name, "engine": "peewee.SqliteDatabase"}
     config["TESTING"] = True
 
     app = create_app(config)
@@ -16,8 +16,8 @@ def client():
     yield client
 
     # Cleanup
-    os.close(self.db_fd)
-    os.unlink(self.db_name)
+    os.close(db_fd)
+    os.unlink(db_name)
 
 
 def test_assert(self):
