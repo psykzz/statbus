@@ -14,8 +14,11 @@ DATABASE = {
     "passwd": os.getenv("DATABASE_PASSWORD", "password"),
 }
 
-SECRET_KEY = os.getenv("SECRET_KEY", os.urandom(64)).encode('utf-8')
-
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    SECRET_KEY = os.urandom(64)
+else:
+    SECRET_KEY = SECRET_KEY.encode('utf-8')
 ## caching
 CACHE_TYPE = "filesystem"
 CACHE_DEFAULT_TIMEOUT = 1
