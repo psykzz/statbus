@@ -4,6 +4,7 @@ load_dotenv()
 
 import os
 import tempfile
+import redis
 
 DATABASE = {
     "engine": "peewee.MySQLDatabase",
@@ -20,6 +21,8 @@ if not SECRET_KEY:
 else:
     SECRET_KEY = SECRET_KEY.encode("utf-8")
 
+
+
 ## caching
 CACHE_TYPE = "filesystem"
 CACHE_DEFAULT_TIMEOUT = 1
@@ -28,6 +31,15 @@ CACHE_DIR = tempfile.mkdtemp()
 ## Session
 SESSION_TYPE = "filesystem"
 SESSION_FILE_DIR = tempfile.mkdtemp()
+
+## Redis
+# If we have redis available we can change our cache type from filesystem
+REDIS_CLIENT = redis.from_url(os.environ.get("REDIS_URL"))
+if REDIS_CLIENT:
+    CACHE_TYPE = 'redis'
+    CACHE_REDIS_URL = os.environ.get("REDIS_URL")
+    SESSION_TYPE = 'redis'
+    SESSION_REDIS = REDIS_CLIENT
 
 
 ## Social links
