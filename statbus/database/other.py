@@ -86,7 +86,12 @@ class Round(DBModel):
     def get_recent(cls, days=7, limit=5):
         today = datetime.date.today()
         since = today - datetime.timedelta(days=days)
-        return cls.select().where(cls.end_datetime > since).order_by(cls.id.desc()).limit(limit)
+        return (
+            cls.select()
+            .where(cls.end_datetime > since)
+            .order_by(cls.id.desc())
+            .limit(limit)
+        )
 
     @property
     def ship_name(self):

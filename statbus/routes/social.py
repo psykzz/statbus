@@ -6,12 +6,14 @@ bp = Blueprint("social", __name__)
 
 @bp.route("/discord")
 def discord():
-    return redirect(current_app.config['SOCIAL_LINK_DISCORD'])
+    return redirect(current_app.config["SOCIAL_LINK_DISCORD"])
+
 
 @bp.route("/github")
 def github():
-    return redirect(current_app.config['SOCIAL_LINK_GITHUB'])
+    return redirect(current_app.config["SOCIAL_LINK_GITHUB"])
+
 
 @bp.route("/getting-started")
 def getting_started():
-    return redirect(current_app.config['SOCIAL_LINK_GETTING_STARTED'])
+    return redirect(current_app.config["SOCIAL_LINK_GETTING_STARTED"])

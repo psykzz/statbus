@@ -13,6 +13,7 @@ from ..utils.tg_auth import Auth
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
+
 def require_auth(redirect=None):
     def inner(f):
         # if "auth.token" not in session:
@@ -21,6 +22,7 @@ def require_auth(redirect=None):
         #     else:
         #         return abort(401)
         f()
+
     return inner
 
 

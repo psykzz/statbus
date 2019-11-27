@@ -18,18 +18,23 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
     SECRET_KEY = os.urandom(64)
 else:
-    SECRET_KEY = SECRET_KEY.encode('utf-8')
+    SECRET_KEY = SECRET_KEY.encode("utf-8")
+
 ## caching
 CACHE_TYPE = "filesystem"
 CACHE_DEFAULT_TIMEOUT = 1
 CACHE_DIR = tempfile.mkdtemp()
 
 ## Session
-SESSION_TYPE = 'filesystem'
+SESSION_TYPE = "filesystem"
 SESSION_FILE_DIR = tempfile.mkdtemp()
 
 
 ## Social links
-SOCIAL_LINK_GITHUB = os.getenv('SOCIAL_LINK_GITHUB', 'https://github.com/tgstation/TerraGov-Marine-Corps')
-SOCIAL_LINK_DISCORD = os.getenv('SOCIAL_LINK_DISCORD', 'https://discord.gg/2dFpfNE')
-SOCIAL_LINK_GETTING_STARTED = os.getenv('SOCIAL_LINK_GETTING_STARTED', 'https://tgstation13.org/wiki/TGMC')
+SOCIAL_LINK_GITHUB = os.getenv(
+    "SOCIAL_LINK_GITHUB", "https://github.com/tgstation/TerraGov-Marine-Corps"
+)
+SOCIAL_LINK_DISCORD = os.getenv("SOCIAL_LINK_DISCORD", "https://discord.gg/2dFpfNE")
+SOCIAL_LINK_GETTING_STARTED = os.getenv(
+    "SOCIAL_LINK_GETTING_STARTED", "https://tgstation13.org/wiki/TGMC"
+)

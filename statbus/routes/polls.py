@@ -14,7 +14,9 @@ bp = Blueprint("polls", __name__)
 @bp.route("/polls")
 @cache.cached()
 def index():
-    polls = PollQuestion.select().where(PollQuestion.adminonly == False, PollQuestion.dontshow == False)
+    polls = PollQuestion.select().where(
+        PollQuestion.adminonly == False, PollQuestion.dontshow == False
+    )
     pages = PaginatedQuery(polls, 25)
     return render_template("polls/polls.html", pages=pages)
 

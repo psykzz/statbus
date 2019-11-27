@@ -37,7 +37,11 @@ class PollQuestion(DBModel):
 
     @classmethod
     def get_active(cls, limit=3):
-        return cls.select().where(cls.adminonly == False, cls.dontshow == False).limit(limit)
+        return (
+            cls.select()
+            .where(cls.adminonly == False, cls.dontshow == False)
+            .limit(limit)
+        )
 
     @property
     def poll_status(self):

@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 
 from statbus.database.util import db_wrapper
-from statbus.ext  import cache, session
+from statbus.ext import cache, session
 from statbus.routes import frontpage, social, auth, polls, rounds
 
 
