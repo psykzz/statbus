@@ -14,7 +14,7 @@ DATABASE = {
     "user": os.getenv("DATABASE_USER", "root"),
     "passwd": os.getenv("DATABASE_PASSWORD", "password"),
 }
-
+ 
 SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
     SECRET_KEY = os.urandom(64)
@@ -34,10 +34,11 @@ SESSION_FILE_DIR = tempfile.mkdtemp()
 
 ## Redis
 # If we have redis available we can change our cache type from filesystem
-REDIS_CLIENT = redis.from_url(os.environ.get("REDIS_URL"))
-if REDIS_CLIENT:
+REDIS_URL = os.environ.get("REDIS_URL")
+if REDIS_URL:
+    REDIS_CLIENT = redis.from_url(REDIS_URL)
     CACHE_TYPE = 'redis'
-    CACHE_REDIS_URL = os.environ.get("REDIS_URL")
+    CACHE_REDIS_URL = REDIS_URL
     SESSION_TYPE = 'redis'
     SESSION_REDIS = REDIS_CLIENT
 
@@ -50,3 +51,9 @@ SOCIAL_LINK_DISCORD = os.getenv("SOCIAL_LINK_DISCORD", "https://discord.gg/2dFpf
 SOCIAL_LINK_GETTING_STARTED = os.getenv(
     "SOCIAL_LINK_GETTING_STARTED", "https://tgstation13.org/wiki/TGMC"
 )
+
+
+## Github Token
+GITHUB_REPO = os.getenv('GITHUB_REPO', 'tgstation/TerraGov-Marine-Corps')
+GITHUB_LABELS = os.getenv('GITHUB_LABELS', 'Needs Balance Review,Balance/Rebalance')
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')

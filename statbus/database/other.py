@@ -94,6 +94,13 @@ class Round(DBModel):
         )
 
     @property
+    def merged_prs(self):
+        fb = self.feedback.where(Feedback.key_name == "testmerged_prs").first()
+        if not fb:
+            return "UNSET"
+        return fb.value
+
+    @property
     def ship_name(self):
         fb = self.feedback.where(Feedback.key_name == "ship_map").first()
         if not fb:

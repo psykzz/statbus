@@ -5,6 +5,7 @@ from playhouse.flask_utils import PaginatedQuery
 
 from statbus.database import Round
 from statbus.ext import cache
+from statbus.utils import github
 
 
 bp = Blueprint("rounds", __name__)
@@ -20,12 +21,16 @@ def index():
 
 
 @bp.route("/rounds/<int:round_id>")
-@cache.cached()
+@cache.memoize()
 def detail(round_id):
     round_info = Round.select().where(Round.id == round_id).first()
     if not round_info:
         abort(404)
-    return render_template("rounds/round_info.html", round_info=round_info)
+
+    pr_list = round_info.merged_prs
+    balance_prs = github.get_balance_prs()
+
+    return render_template("rounds/round_info.html", round_info=round_info, balance_prs=balance_prs)
 
 
 @bp.route("/rounds/winrates")
@@ -40,3 +45,4 @@ def recent_winrates():
     winrates = None
 
     return render_template("rounds/winrates.html", winrates=winrates, rounds=rounds)
+

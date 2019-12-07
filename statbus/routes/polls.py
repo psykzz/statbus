@@ -22,7 +22,7 @@ def index():
 
 
 @bp.route("/poll/<int:poll_id>")
-@cache.cached()
+@cache.memoize()
 def detail(poll_id):
     poll = PollQuestion.select().where(PollQuestion.id == poll_id).first()
     if not poll or poll.is_hidden:

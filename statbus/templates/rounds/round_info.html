@@ -37,31 +37,43 @@ Details about Round #{{round_info.id}}
 		<!-- <div><b>End state:</b> {{round_info.end_state}}</div> -->
 	</p>
 	
+	
 
-	<section>
-		<h3>Stats</h3>
-		<dl class="row">
-		{% for stat in round_info.feedback %}
-			{% if stat.is_nested %}
-				<dt class="col-sm-4">&nbsp;</dt>
-				<dd class="col-sm-8">&nbsp;</dd>
-				<dt class="col-sm-3">{{stat.key_name|replace('_', ' ')}}</dt>
-				<dd class="col-sm-9">
-					<dl class="row">
-						<dt class="col-sm-4">&nbsp;</dt>
-						<dd class="col-sm-8">&nbsp;</dd>
-					{% for key, value in stat.value.items() %}
-						<dt class="col-sm-4">{{key}}</dt>
-						<dd class="col-sm-8">{{value}}</dd>
-					{% endfor %}
-					</dl>
-				</dd>
-			{% else %}
-				<dt class="col-sm-3">{{stat.key_name|replace('_', ' ')}}</dt>
-				<dd class="col-sm-9">{{stat.value}}</dd>
-			{% endif %}
-		{% endfor %}
-		</dl>
-	</section>
+	<div class="row">
+		<section class="col-5">
+			<h3>Stats</h3>
+			<dl class="row">
+			{% for stat in round_info.feedback %}
+				{% if stat.is_nested %}
+					<dt class="col-12">&nbsp;</dd>
+					<dt class="col-12">{{stat.key_name|replace('_', ' ')}}</dt>
+					<dd class="col-11 offset-1">
+						<dl class="row">
+							<!-- <dt class="col-4">&nbsp;</dt>
+							<dd class="offset-2 col-4">&nbsp;</dd> -->
+						{% for key, value in stat.value.items() %}
+							<dt class="col-4">{{key}}</dt>
+							<dd class="offset-2 col-4">{{value}}</dd>
+						{% endfor %}
+						</dl>
+					</dd>
+				{% else %}
+					<dt class="col-3">{{stat.key_name|replace('_', ' ')}}</dt>
+					<dd class="col-9">{{stat.value}}</dd>
+				{% endif %}
+			{% endfor %}
+			</dl>
+		</section>
+		<section class="offset-2 col-5">
+			<h3>Balance PRs</h3>
+	
+			<dl class="row">
+			{% for pr in balance_prs %}
+				<dt class="col-1"><a href="https://github.com/tgstation/TerraGov-Marine-Corps/pull/{{pr.number}}">#{{pr.number}}</a></dt>
+				<dd class="offset-1 col-10">{{pr.title}}</dd>
+			{% endfor %}
+			</dl>
+		</section>
+	</div>
 </div>
 {% endblock body %}
