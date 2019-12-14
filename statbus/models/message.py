@@ -10,10 +10,8 @@ from statbus.models.round import Round
 from statbus.models.util import DBModel, EnumField
 
 
-
-
 class Message(DBModel):
-    class Meta: 
+    class Meta:
         table_name = "messages"
 
     id = IntegerField(primary_key=True, unique=True)
@@ -32,8 +30,3 @@ class Message(DBModel):
     lasteditor = CharField()
     edits = CharField()
     deleted = IntegerField()
-
-
-    
-    
-

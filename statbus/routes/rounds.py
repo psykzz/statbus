@@ -31,7 +31,9 @@ def detail(round_id):
     pr_list = round_info.merged_prs
     balance_prs = github.get_balance_prs()
 
-    return render_template("rounds/round_info.html", round_info=round_info, balance_prs=balance_prs)
+    return render_template(
+        "rounds/round_info.html", round_info=round_info, balance_prs=balance_prs
+    )
 
 
 @bp.route("/rounds/<string:player_name>")
@@ -44,7 +46,6 @@ def by_player(player_name):
     pages = PaginatedQuery(player.rounds, 10)
     return render_template("rounds/rounds.html", pages=pages, for_player=player_name)
 
-    
 
 @bp.route("/rounds/winrates")
 @cache.cached()
@@ -58,4 +59,3 @@ def recent_winrates():
     winrates = None
 
     return render_template("rounds/winrates.html", winrates=winrates, rounds=rounds)
-
