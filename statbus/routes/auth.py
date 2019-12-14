@@ -47,6 +47,12 @@ def login():
     return redirect(g.tg_auth.redirect(tg_session.session_public_token))
 
 
+@bp.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("frontpage.index"))
+
+
 @bp.route("/callback", methods=("GET", "POST"))
 def callback():
     if "auth.token" not in session:
