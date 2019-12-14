@@ -2,7 +2,7 @@ import datetime
 from flask import url_for
 from peewee import *
 
-from statbus.database.util import DBModel
+from statbus.models.util import DBModel
 
 
 class PollOption(DBModel):

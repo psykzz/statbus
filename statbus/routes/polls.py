@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, request, abort
 from playhouse.flask_utils import PaginatedQuery
 from peewee import fn, JOIN
 
-from statbus.database import PollQuestion, PollOption, PollVote, PollTextReply
+from statbus.models.poll import PollQuestion, PollOption, PollVote, PollTextReply
 from statbus.ext import cache
 
 bp = Blueprint("polls", __name__)

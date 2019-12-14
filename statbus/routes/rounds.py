@@ -3,7 +3,8 @@ from datetime import datetime, timedelta
 from flask import Blueprint, render_template, request, abort
 from playhouse.flask_utils import PaginatedQuery
 
-from statbus.database import Round
+from statbus.models.player import Player
+from statbus.models.round import Round
 from statbus.ext import cache
 from statbus.utils import github
 
@@ -32,6 +33,18 @@ def detail(round_id):
 
     return render_template("rounds/round_info.html", round_info=round_info, balance_prs=balance_prs)
 
+
+@bp.route("/rounds/<string:player_name>")
+@cache.memoize()
+def by_player(player_name):
+    player = Player.select().where(Player.ckey == player_name).first()
+    if not player:
+        abort(404)
+
+    pages = PaginatedQuery(player.rounds, 10)
+    return render_template("rounds/rounds.html", pages=pages, for_player=player_name)
+
+    
 
 @bp.route("/rounds/winrates")
 @cache.cached()

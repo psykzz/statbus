@@ -47,6 +47,9 @@ if REDIS_URL:
 SOCIAL_LINK_GITHUB = os.getenv(
     "SOCIAL_LINK_GITHUB", "https://github.com/tgstation/TerraGov-Marine-Corps"
 )
+SOCIAL_LINK_PLAYNOW = os.getenv(
+    "SOCIAL_LINK_PLAYNOW", "byond://tgmc.tgstation13.org:5337"
+)
 SOCIAL_LINK_DISCORD = os.getenv("SOCIAL_LINK_DISCORD", "https://discord.gg/2dFpfNE")
 SOCIAL_LINK_GETTING_STARTED = os.getenv(
     "SOCIAL_LINK_GETTING_STARTED", "https://tgstation13.org/wiki/TGMC"

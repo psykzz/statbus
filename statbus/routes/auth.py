@@ -36,7 +36,7 @@ def ensure_tg_auth():
 @bp.route("/")
 def login():
     if "auth.token" in session:
-        return redirect(url_for(".userinfo"))
+        return redirect(url_for("personal.me"))
     # Create session
     redirect_uri = url_for(".callback", _external=True)
     tg_session = g.tg_auth.generate_session(redirect_uri)
@@ -55,7 +55,7 @@ def callback():
     private_token = session["auth.token"]
     session["userinfo"] = g.tg_auth.get_user_data(private_token)
 
-    return redirect(url_for(".userinfo"))
+    return redirect(url_for("personal.me"))
 
 
 @bp.route("/userinfo")

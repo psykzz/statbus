@@ -12,7 +12,7 @@
 {% endblock navigation %} 
 
 {% block header %}
-	Rounds
+	Rounds{% if for_player %} - {{for_player}} {% endif %}
 {% endblock header %}
 
 {% block body %}

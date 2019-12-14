@@ -32,6 +32,7 @@
     </div>
     
     <div>
+        <span class="badge badge-secondary">Last 5 rounds, within 7 days</span>
         {% for object in recent_rounds %}
             {{ round.summary(object) }}
         {% else %}

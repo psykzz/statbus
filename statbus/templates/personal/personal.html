@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% import 'rounds/_round.html' as round %}
+{% import 'personal/_utils.html' as util %}
+
+{% block body %}
+<div class="jumbotron">
+    <h1 class="display-1">{{player.ckey}}</h1>
+    <section>
+        Welcome to your Statbus!
+    </section>
+</div>
+
+<hr />
+
+<div>
+    <h2>Recent notes <span class="small text-right"><a href="{{url_for('personal.notes')}}">view all</a></span></h2>
+    <div>
+        <span class="badge badge-secondary"></span>
+        {% for object in player.notes %}
+            {{ util.note(object) }}
+        {% else %}
+            <blockquote> - No notes, keep up the good behaviour!</blockquote>
+        {% endfor %}
+    </div>
+</div>
+
+<hr />
+
+<div>
+    <div>
+        <h2>Recent rounds <span class="small text-right"><a href="{{url_for('personal.rounds')}}">view all</a></span></h2>
+    </div>
+    <div>
+        <span class="badge badge-secondary">Last 5 rounds, within 7 days</span>
+        {% for object in player.rounds %}
+            {{ round.summary(object) }}
+        {% else %}
+            <blockquote>- Seems you haven't played recently. Why not <a href='{{url_for("social.play")}}' target="_blank">play now</a>?</blockquote>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -24,7 +24,7 @@ def get_balance_prs(balance_labels=None):
     for label in balance_labels:
         all_issues += repo.get_issues(state="open", labels=[label])
     
-    for issue in all_issues:
-        print(issue)
+    # for issue in all_issues:
+    #     print(issue)
 
     return all_issues
