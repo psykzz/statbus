@@ -20,14 +20,15 @@ def before_req():
         abort(401)
     player = Player.select().where(Player.ckey == player_name).first()
     if not player:
-        abort(404)
+        player = Player()
+        player.ckey = player_name
+        player.byond_key = player_name
     g.player = player
 
 
 @bp.route("/me")
 @cache.cached()
 def me():
-    print([n for n in g.player.notes])
     return render_template("personal/personal.html", player=g.player)
 
 
