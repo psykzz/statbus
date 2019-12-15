@@ -5,6 +5,7 @@ from enum import Enum
 from peewee import *
 from flask import url_for, request
 
+from statbus.models.connection import Connection
 from statbus.models.other import Feedback
 from statbus.models.util import DBModel, EnumField
 
