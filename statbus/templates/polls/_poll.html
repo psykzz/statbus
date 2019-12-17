@@ -5,11 +5,22 @@
     </div>
     <div class="col-10">
         <dl class="row">
-            <span class="col-2 align-items-center">{{poll_question.createdby_ckey}} asks...</span><span class="col-10">"{{poll_question.question}}"</span>
-            <span class="offset-9 col-3">{{poll_question.poll_status}}</span>
+            <span class="col-2 align-items-center">{{poll_question.createdby_ckey}} asks...</span>
+            <span class="col-7">"{{poll_question.question}}"</span>
+            <span class="col-3">
+                <div class="row">
+                    <div class="col-12">
+                        {{poll_question.poll_status}}
+                    </div>
+                    <div class="col-12">
+                        Total Votes: {{poll_question.total_votes}}
+                    </div>
+            </span>
         </dl>
     </div>
-    <div class="col-1 d-flex align-items-center justify-content-around flex-column"><a href="{{poll_question.link_url}}" class="btn btn-primary">View</a></div>
+    <div class="col-1 d-flex align-items-center justify-content-around flex-column">
+        <a href="{{poll_question.link_url}}" class="btn btn-primary">View</a>
+    </div>
 </div>
 {%- endmacro %}
 
@@ -17,7 +28,7 @@
 {% macro detail(poll_question) %}
 <b>Poll start date:</b> {{poll_question.starttime}}<br>
 <b>Poll end date:</b> {{poll_question.endtime}}<br>
-<b>{{poll_question.poll_status}}</b> <br/>
+<b>{{poll_question.poll_status}}</b> <br />
 
 <b>Started by:</b> {{poll_question.createdby_ckey}}<br>
 <br>

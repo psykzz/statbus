@@ -33,7 +33,7 @@ class Round(DBModel):
         since = today - datetime.timedelta(days=days)
         return (
             cls.select()
-            .where(cls.end_datetime > since)
+            .where(cls.end_datetime > since, cls.start_datetime, cls.end_datetime)
             .order_by(cls.id.desc())
             .limit(limit)
         )

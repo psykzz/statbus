@@ -54,6 +54,10 @@ class PollQuestion(DBModel):
             return f"Time remaining: {time_until} day(s)"
 
     @property
+    def total_votes(self):
+        return 0
+
+    @property
     def is_hidden(self):
         return self.adminonly or self.dontshow
 
