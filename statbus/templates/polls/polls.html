@@ -17,7 +17,9 @@
 
 {% block body %}
 	{% for object in pages.get_object_list() %}
-			{{ poll.summary(object) }}
+		{{ poll.summary(object) }}
+	{% else %}
+		There hasn't been any polls played... yet.
 	{% endfor %}
 {% include "pages.html" %}
 {% endblock body %}

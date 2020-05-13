@@ -18,6 +18,8 @@
 {% block body %}
 	{% for object in pages.get_object_list() %}
 		{{ round.summary(object) }}
+	{% else %}
+		There hasn't been any rounds played... yet.
 	{% endfor %}
 {% include "pages.html" %}
 {% endblock body %}

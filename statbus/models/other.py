@@ -35,14 +35,13 @@ class Feedback(DBModel):
 
     @property
     def value(self):
-        mapping = {
+        return {
             KeyTypeEnum.TEXT: self.text,
             KeyTypeEnum.AMOUNT: self.amount,
             KeyTypeEnum.TALLY: self.tally,
             KeyTypeEnum.ASSOCIATIVE: self.assoc,
             KeyTypeEnum.NESTED: self.data,
-        }
-        return mapping[self.key_type]
+        }[self.key_type]
 
     @property
     def is_nested(self):

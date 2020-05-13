@@ -1,23 +1,6 @@
 {% macro note(note) -%}
 <div class="row">
     <div class="col-1 d-flex align-items-center">
-        <h2 class="">#{{note.id}}</h2>
-    </div>
-    <div class="col-10">
-        <div class="row p-3">
-            <span class="col-2">Mode</span><span class="col-10">{{note.game_mode}}</span>
-            <span class="col-2">Map</span><span class="col-10">{{note.map_name}}</span>
-            <span class="col-2">Ship</span><span class="col-10">{{note.ship_name}}</span>
-            <span class="col-2">{{note.status}}</span><span class="col-10">{{note.game_mode_result}}</span>
-        </div>
-    </div>
-    <div class="col-1 d-flex align-items-center justify-content-around flex-column"><a href="{{round.link_url}}" class="btn btn-primary">View</a></div>
-</div>
-{%- endmacro %}
-
-{% macro note(note) -%}
-<div class="row">
-    <div class="col-1 d-flex align-items-center">
         <h2>#{{note.id}}</h2>
     </div>
     <div class="col-10">
