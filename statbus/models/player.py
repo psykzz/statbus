@@ -5,7 +5,7 @@ from enum import Enum
 from peewee import *
 from flask import url_for, request
 
-from statbus.models.message import Message
+from statbus.models.message import Messages
 from statbus.models.connection import Connection
 from statbus.models.round import Round
 from statbus.models.util import DBModel, EnumField
@@ -40,9 +40,9 @@ class Player(DBModel):
     @property
     def notes(self):
         return (
-            Message.select()
-            .join(Player, on=(Player.ckey == Message.targetckey))
-            .where(Message.targetckey == self.ckey)
-            .order_by(Message.id.desc())
+            Messages.select()
+            .join(Player, on=(Player.ckey == Messages.targetckey))
+            .where(Messages.targetckey == self.ckey)
+            .order_by(Messages.id.desc())
             .limit(10)
         )

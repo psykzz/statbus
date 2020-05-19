@@ -2,6 +2,7 @@ flask
 flask-caching
 flask-session
 flask-login
+newrelic
 peewee
 pygithub
 pymysql

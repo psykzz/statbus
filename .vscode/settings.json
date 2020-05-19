@@ -6,5 +6,6 @@
     "python.testing.pytestArgs": [
         "--ignore=src/ptvsd/_vendored/",
         "."
-    ]
+    ],
+    "editor.formatOnSave": true
 }

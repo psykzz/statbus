@@ -2,76 +2,92 @@
 
 {% block navigation %}
 <nav aria-label="breadcrumb">
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="/">Home</a></li>
-		<li class="breadcrumb-item"><a href="/rounds">Rounds</a></li>
-		<li class="breadcrumb-item active" aria-current="page">Round #{{round_info.id}}</li>
-	</ol>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="/rounds">Rounds</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Round #{{round_info.id}}</li>
+    </ol>
 </nav>
-{% endblock navigation %} 
+{% endblock navigation %}
 
 {% block header %}
-Details about Round #{{round_info.id}}
+<div style="display: flex;">
+    <div style="flex: 1 1;">Details about Round #{{round_info.id}}</div>
+    <div style="display: flex;flex: 1 1;font-size: 1.5rem;flex-direction: column;text-align: center;">
+        <span>
+            {{round_info.duration}}
+        </span>
+        <span style="font-size: 0.8rem;">
+            {{round_info.start_datetime}} -> {{round_info.end_datetime}}
+        </span>
+    </div>
+</div>
 {% endblock header %}
 
 {% block body %}
 <div>
-	<div class="well">
-		<div><b>Ship name</b>: {{round_info.ship_name}}</div>
-		<div><b>Map name</b>: {{round_info.map_name}}</div>
-		<div><b>Game mode:</b> {{round_info.game_mode}}</div>
-		<div><b>Unique Players:</b> {{round_info.unique_players}}</div>
-	</div>
+    <div class="row">
+        <section class="col-5">
+            <div class="well">
+                <div><b>Ship name</b>: {{round_info.ship_name}}</div>
+                <div><b>Map name</b>: {{round_info.map_name}}</div>
+                <div><b>Game mode:</b> {{round_info.game_mode}}</div>
+                <div><b>Unique Players:</b> {{round_info.unique_players.count()}}</div>
+            </div>
 
-	<!-- <p>
-		<div><b>Server:</b> {{round_info.server_ip}}:{{round_info.server_port}}</div>
-		<div><b>Commit hash:</b> {{round_info.commit_hash}}</div>
-	</p> -->
+            <p>
+            <div><b>Init time:</b> {{round_info.initialize_datetime}}</div>
+            <!-- <div><b>Round Start:</b> {{round_info.start_datetime}}</div>
+            <div><b>Round Finished:</b> {{round_info.end_datetime}}</div>
+            <div><b>Duration:</b> {{round_info.duration}}</div> -->
+            <div><b>Result:</b> {{round_info.game_mode_result}}</div>
+            <!-- <div><b>End state:</b> {{round_info.end_state}}</div> -->
+            </p>
+        </section>
+        {#
+        <section class="offset-2 col-5">
+            <h3>Players</h3>
+            <ul>
+                {% for player in round_info.unique_players %}
+                <li>{{player.ckey}}</li>
+                {% endfor %}
+            </ul>
+        </section>
+        #}
+    </div>
 
-	<p>
-		<div><b>Init time:</b> {{round_info.initialize_datetime}}</div>
-		<div><b>Round Start:</b> {{round_info.start_datetime}}</div>
-		<div><b>Round Finished:</b> {{round_info.end_datetime}}</div>
-		<div><b>Duration:</b> {{round_info.duration}}</div>
-		<div><b>Result:</b> {{round_info.game_mode_result}}</div>
-		<!-- <div><b>End state:</b> {{round_info.end_state}}</div> -->
-	</p>
-	
-	
 
-	<div class="row">
-		<section class="col-5">
-			<h3>Stats</h3>
-			<dl class="row">
-			{% for stat in round_info.feedback %}
-				{% if stat.is_nested %}
-					<dt class="col-12">&nbsp;</dd>
-					<dt class="col-12">{{stat.key_name|replace('_', ' ')}}</dt>
-					<dd class="col-11 offset-1">
-						<dl class="row">
-						{% for key, value in stat.value.items() %}
-							<dt class="col-4">{{key}}</dt>
-							<dd class="offset-2 col-4">{{value}}</dd>
-						{% endfor %}
-						</dl>
-					</dd>
-				{% else %}
-					<dt class="col-3">{{stat.key_name|replace('_', ' ')}}</dt>
-					<dd class="col-9">{{stat.value}}</dd>
-				{% endif %}
-			{% endfor %}
-			</dl>
-		</section>
-		<section class="offset-2 col-5">
-			<h3>Balance PRs</h3>
-	
-			<dl class="row">
-			{% for pr in balance_prs %}
-				<dt class="col-1"><a href="https://github.com/tgstation/TerraGov-Marine-Corps/pull/{{pr.number}}">#{{pr.number}}</a></dt>
-				<dd class="offset-1 col-10">{{pr.title}}</dd>
-			{% endfor %}
-			</dl>
-		</section>
-	</div>
+
+    <div class="row">
+        <section class="col-5">
+            <h3>Stats</h3>
+
+            <div>
+            <table>
+            <tbody>
+                 {% for name, value in round_info.round_stats.items() %}
+                 <tr>
+                 <td>{{name}}</td>
+                 <td>{{value}}</td>
+                 </tr>
+                 {% endfor %}
+            </tbody>
+            </table>
+            </div>
+        </section>
+        <section class="offset-2 col-5">
+            <h3>Balance PRs</h3>
+            <span class="badge badge-secondary">Specific balance prs merged at the time</span>
+
+            <dl class="row">
+                {% for pr in balance_prs %}
+                <dt class="col-1"><a
+                        href="https://github.com/tgstation/TerraGov-Marine-Corps/pull/{{pr.number}}">#{{pr.number}}</a>
+                </dt>
+                <dd class="offset-1 col-10">{{pr.title}}</dd>
+                {% endfor %}
+            </dl>
+        </section>
+    </div>
 </div>
 {% endblock body %}

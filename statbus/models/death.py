@@ -1,0 +1,28 @@
+class Death(BaseModel):
+    brainloss = IntegerField()
+    bruteloss = IntegerField()
+    byondkey = CharField()
+    cloneloss = IntegerField()
+    fireloss = IntegerField()
+    job = CharField()
+    lakey = CharField(null=True)
+    laname = CharField(null=True)
+    last_words = CharField(null=True)
+    mapname = CharField()
+    name = CharField()
+    oxyloss = IntegerField()
+    pod = CharField()
+    round_id = IntegerField()
+    server_ip = IntegerField()
+    server_port = IntegerField()
+    special = CharField(null=True)
+    staminaloss = IntegerField()
+    suicide = IntegerField(constraints=[SQL("DEFAULT 0")])
+    tod = DateTimeField()
+    toxloss = IntegerField()
+    x_coord = IntegerField()
+    y_coord = IntegerField()
+    z_coord = IntegerField()
+
+    class Meta:
+        table_name = "death"

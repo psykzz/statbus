@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, request, abort, session, g
 from playhouse.flask_utils import PaginatedQuery
 
 from statbus.models.player import Player
-from statbus.models.message import Message
+from statbus.models.message import Messages
 from statbus.models.round import Round
 from statbus.ext import cache
 from statbus.utils import github

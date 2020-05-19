@@ -9,17 +9,16 @@ from statbus.models.util import DBModel, EnumField
 
 
 class Connection(DBModel):
-    class Meta:
-        table_name = "connection_log"
-
-    id = IntegerField(unique=True)
-    datetime = DateTimeField()
+    ckey = CharField(null=True)
+    computerid = CharField(null=True)
+    datetime = DateTimeField(null=True)
+    ip = IntegerField()
+    round_id = IntegerField()
     server_ip = IntegerField()
     server_port = IntegerField()
-    round_id = IntegerField()
-    ckey = CharField()
-    ip = IntegerField()
-    computerid = CharField()
+
+    class Meta:
+        table_name = "connection_log"
 
     @property
     def round(self):

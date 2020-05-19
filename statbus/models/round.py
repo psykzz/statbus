@@ -39,6 +39,10 @@ class Round(DBModel):
         )
 
     @property
+    def feedback(self):
+        return Feedback.select().where(Feedback.round_id == self.id)
+
+    @property
     def merged_prs(self):
         fb = self.feedback.where(Feedback.key_name == "testmerged_prs").first()
         if not fb:
@@ -53,12 +57,18 @@ class Round(DBModel):
         return fb.data[0]
 
     @property
+    def round_stats(self):
+        fb = self.feedback.where(Feedback.key_name == "round_statistics").first()
+        if not fb:
+            return "UNSET"
+        return fb.value
+
+    @property
     def unique_players(self):
         return (
             Connection.select()
             .where(Connection.round_id == self.id)
             .group_by(Connection.ckey)
-            .count()
         )
 
     @property
@@ -69,10 +79,6 @@ class Round(DBModel):
         if not self.end_datetime:
             return "Ongoing"
         return "Ended"
-
-    @property
-    def feedback(self):
-        return Feedback.select().where(Feedback.round_id == self.id)
 
     @property
     def link_url(self):

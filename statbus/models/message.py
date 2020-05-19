@@ -10,7 +10,7 @@ from statbus.models.round import Round
 from statbus.models.util import DBModel, EnumField
 
 
-class Message(DBModel):
+class Messages(DBModel):
     class Meta:
         table_name = "messages"
 

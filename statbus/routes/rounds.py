@@ -37,12 +37,17 @@ def index():
 @bp.route("/rounds/<int:round_id>")
 @cache.memoize()
 def detail(round_id):
+    print(datetime.now())
     round_info = Round.select().where(Round.id == round_id).first()
-    if not round_info:
+    if not round_info or not round_info.end_datetime:
         abort(404)
 
-    pr_list = round_info.merged_prs
-    balance_prs = github.get_balance_prs()
+    print(datetime.now())
+
+    pr_list = round_info.merged_prs.values()
+    print(datetime.now())
+    balance_prs = github.get_balance_prs(pr_list)
+    print(datetime.now())
 
     return render_template(
         "rounds/round_info.html", round_info=round_info, balance_prs=balance_prs

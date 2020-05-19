@@ -7,9 +7,10 @@
         <div class="row p-3">
             <span class="col-12">{{round.game_mode}} - {{round.map_name}} - {{round.ship_name}}</span>
             <span class="col-10">{{round.game_mode_result}}</span>
-            <span class="col-2">Players: {{round.unique_players}}</span>
+            <span class="col-2">Players: {{round.unique_players.count()}}</span>
         </div>
     </div>
-    <div class="col-1 d-flex align-items-center justify-content-around flex-column"><a href="{{round.link_url}}" class="btn btn-primary">View</a></div>
+    <div class="col-1 d-flex align-items-center justify-content-around flex-column"><a href="{{round.link_url}}"
+            class="btn btn-primary">View</a></div>
 </div>
 {%- endmacro %}
