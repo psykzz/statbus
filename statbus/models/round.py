@@ -46,7 +46,7 @@ class Round(DBModel):
     def merged_prs(self):
         fb = self.feedback.where(Feedback.key_name == "testmerged_prs").first()
         if not fb:
-            return "UNSET"
+            return {}
         return fb.value
 
     @property
@@ -60,7 +60,7 @@ class Round(DBModel):
     def round_stats(self):
         fb = self.feedback.where(Feedback.key_name == "round_statistics").first()
         if not fb:
-            return "UNSET"
+            return {}
         return fb.value
 
     @property
