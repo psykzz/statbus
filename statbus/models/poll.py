@@ -39,7 +39,11 @@ class PollQuestion(DBModel):
     def get_active(cls, limit=3):
         return (
             cls.select()
-            .where(cls.adminonly == False, cls.dontshow == False)
+            .where(
+                cls.adminonly == False,
+                cls.dontshow == False,
+                cls.endtime > datetime.datetime.now(),
+            )
             .limit(limit)
         )
 

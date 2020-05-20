@@ -61,32 +61,36 @@
     <div class="row">
         <section class="col-5">
             <h3>Stats</h3>
-
             <div>
-            <table>
-            <tbody>
-                 {% for name, value in round_info.round_stats.items() %}
-                 <tr>
-                 <td>{{name}}</td>
-                 <td>{{value}}</td>
-                 </tr>
-                 {% endfor %}
-            </tbody>
-            </table>
+                <table class="table table-sm table-striped table-bordered">
+                    <tbody>
+                        {% for name, value in round_info.round_stats.items() %}
+                        <tr>
+                            <td>{{name.replace('_', ' ')}}</td>
+                            <td>{{value}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </section>
         <section class="offset-2 col-5">
             <h3>Balance PRs</h3>
             <span class="badge badge-secondary">Specific balance prs merged at the time</span>
 
-            <dl class="row">
-                {% for pr in balance_prs %}
-                <dt class="col-1"><a
-                        href="https://github.com/tgstation/TerraGov-Marine-Corps/pull/{{pr.number}}">#{{pr.number}}</a>
-                </dt>
-                <dd class="offset-1 col-10">{{pr.title}}</dd>
-                {% endfor %}
-            </dl>
+            <table class="table table-striped">
+                <tbody>
+                    {% for pr in balance_prs %}
+                    <tr>
+                        <td>
+                            <a class='btn'
+                                href="https://github.com/tgstation/TerraGov-Marine-Corps/pull/{{pr.number}}">#{{pr.number}}</a>
+                        </td>
+                        <td>{{pr.title}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </section>
     </div>
 </div>

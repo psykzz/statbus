@@ -1,6 +1,7 @@
 from flask import (
     Blueprint,
     render_template,
+    flash,
     request,
     current_app,
     g,
@@ -35,13 +36,14 @@ def ensure_tg_auth():
 
 @bp.route("/")
 def login():
-    if "auth.token" in session:
+    if "userinfo" in session:
         return redirect(url_for("personal.me"))
 
     # Create session
     redirect_uri = url_for(".callback", _external=True)
     tg_session = g.tg_auth.generate_session(redirect_uri)
     if tg_session is None:
+        flash("Unable to generate auth session", "error")
         return redirect(url_for(".error"))
     session["auth.token"] = tg_session.session_private_token
 
@@ -68,8 +70,6 @@ def callback():
 
 @bp.route("/userinfo")
 def userinfo():
-    print(session)
-    print(g.tg_auth.get_user_data(session["auth.token"]))
     return jsonify(session["userinfo"])
 
 

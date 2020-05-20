@@ -24,7 +24,7 @@ else:
 
 ## caching
 CACHE_TYPE = "filesystem"
-CACHE_DEFAULT_TIMEOUT = 60
+CACHE_DEFAULT_TIMEOUT = 300
 CACHE_DIR = tempfile.mkdtemp()
 
 ## Session
