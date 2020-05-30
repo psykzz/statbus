@@ -97,7 +97,7 @@ export const TitleBar = () => {
           />
         </div>
         <div className={classes.grow} />
-        <IconButton aria-label="show 4 new mails" color="inherit">
+        {/* <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
             <Mail />
           </Badge>
@@ -114,7 +114,7 @@ export const TitleBar = () => {
           color="inherit"
         >
           <AccountCircle />
-        </IconButton>
+        </IconButton> */}
       </Toolbar>
     </AppBar>
   );

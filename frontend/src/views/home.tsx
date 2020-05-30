@@ -1,7 +1,6 @@
 import React from "react";
-import { Paper, Card } from "@material-ui/core";
-import { StatBanner, ActivePolls, RecentRounds } from "../components";
 import { useHistory } from "react-router-dom";
+import { ActivePolls, RecentRounds, StatBanner } from "../components";
 
 
 export const Home = () => {

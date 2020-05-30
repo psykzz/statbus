@@ -1,9 +1,9 @@
+import { Grid, Typography } from "@material-ui/core";
 import React from "react";
-import { Paper, Grid, Typography } from "@material-ui/core";
 import { useRound } from "../api/useData";
-import { TestMergeSummary } from "../components/TestMergeSummary";
-import { RoundStats } from "../components/RoundStats";
 import { RoundDeaths } from "../components/RoundDeaths";
+import { RoundStats } from "../components/RoundStats";
+import { TestMergeSummary } from "../components/TestMergeSummary";
 export const Round = ({ match }: any) => {
   const { params: { id } } = match;
   const { round } = useRound(id);

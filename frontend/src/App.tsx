@@ -1,14 +1,14 @@
-import React from 'react';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { Container, Grid } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { createBrowserHistory } from 'history';
+import React from 'react';
+import ReactGA from 'react-ga';
+import { Router } from 'react-router';
+import './App.scss';
+import { Footer } from './components';
 import { TitleBar } from './components/TitleBar';
 import { AppRouter } from './routes';
-import { Router, Route, Redirect } from 'react-router';
-import { createBrowserHistory } from 'history';
-import ReactGA from 'react-ga';
-import './App.scss';
-import { Container, Grid } from '@material-ui/core';
-import { Footer } from './components';
 
 const customHistory = createBrowserHistory();
 

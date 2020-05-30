@@ -1,6 +1,5 @@
 import { Grid, makeStyles, Paper, Typography } from "@material-ui/core";
 import React from "react";
-import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -14,15 +13,6 @@ const useStyles = makeStyles({
 
 export const Footer = () => {
   const cx = useStyles();
-  const { push } = useHistory()
-
-  const links = {
-    "play": "/play",
-    "home": "/",
-    "github": "/github",
-    "discord": "/discord",
-    "getting_started": "/getting_started"
-  }
 
   return (
     <Paper className={cx.root}>
@@ -43,7 +33,6 @@ export const Footer = () => {
             <ul>
               <li><Link to='/play'>Play now</Link></li>
               <li><Link to='/'>Homepage</Link></li>
-              <li></li>
               <li><Link to='/discord'>Discord</Link></li>
               <li><Link to='/wiki'>Get Started</Link></li>
             </ul>

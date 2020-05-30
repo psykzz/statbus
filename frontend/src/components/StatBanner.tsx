@@ -1,5 +1,5 @@
+import { Card, Grid, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
-import { Paper, Card, Typography, makeStyles, Grid } from "@material-ui/core";
 import { useSummary } from "../api/useData";
 
 const useStyles = makeStyles({
