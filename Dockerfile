@@ -2,6 +2,7 @@ FROM node as build
 
 WORKDIR /app
 COPY ./frontend/ /app
+RUN yarn
 RUN yarn build
 
 FROM tiangolo/uwsgi-nginx-flask:python3.8
