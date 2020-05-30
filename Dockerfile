@@ -11,6 +11,6 @@ ENV STATIC_PATH /static/frontend
 COPY ./requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt
 
-COPY --from=builder /app/build  /static/frontend
+COPY --from=build /app/build  /static/frontend
 COPY ./statbus /app/statbus
 ADD ./uwsgi.ini /app/uwsgi.ini
