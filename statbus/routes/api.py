@@ -132,8 +132,10 @@ def round(round_id):
         # We return 404 on rounds that haven't ended to ensure we don't give up too much information
         abort(404)
 
+    connections = 0
     players = []
     try:
+        connections = round_info.connections.count()
         players = [
             player.to_object()
             for player in round_info.connections.group_by(Connection.ckey).all()
@@ -152,7 +154,7 @@ def round(round_id):
 
     data = {
         **round_info.to_object(),
-        "connections": round_info.connections.count(),
+        "connections": connections,
         "players": players,
         "deaths": deaths,
     }
