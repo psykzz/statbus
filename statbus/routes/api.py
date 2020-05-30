@@ -62,9 +62,10 @@ def summary():
 
 
 @bp.route("/winrate")
-@cache.cached()
+@cache.cached(query_string=True)
 def winrate():
     delta = min(90, request.args.get("delta", 7))
+    showall = request.args.get("showall", False)
     winrates = (
         db.session.query(Round.game_mode_result, func.count(Round.game_mode_result))
         .filter(Round.end_datetime > datetime.now() - timedelta(days=delta))
@@ -82,7 +83,9 @@ def winrate():
 
     return {
         "winrates": {
-            k: v for k, v in winrates if k is not None and k in valid_winrates
+            k: v
+            for k, v in winrates
+            if k is not None and k in valid_winrates or showall
         },
     }
 
