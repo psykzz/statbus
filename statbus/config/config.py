@@ -16,7 +16,6 @@ DATABASE = {
 }
 
 SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{DATABASE["user"]}:{DATABASE["passwd"]}@{DATABASE["host"]}:{DATABASE["port"]}/{DATABASE["name"]}'
-SQLALCHEMY_ECHO = True
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
