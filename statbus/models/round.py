@@ -2,30 +2,47 @@ import json
 import datetime
 from enum import Enum
 
-from peewee import *
 from flask import url_for, request
 
-from statbus.models.connection import Connection
-from statbus.models.other import Feedback
-from statbus.models.util import DBModel, EnumField
+from statbus.ext import db
 
 
-class Round(DBModel):
-    class Meta:
-        table_name = "round"
+class Round(db.Model):
+    __tablename__ = "round"
+    id = db.Column(db.Integer, primary_key=True)
+    initialize_datetime = db.Column(db.DateTime)
+    shutdown_datetime = db.Column(db.DateTime, nullable=True)
+    start_datetime = db.Column(db.DateTime, nullable=True)
+    end_datetime = db.Column(db.DateTime, nullable=True)
+    game_mode = db.Column(db.String(32), nullable=True)
+    game_mode_result = db.Column(db.String(64), nullable=True)
+    end_state = db.Column(db.String(64), nullable=True)
+    map_name = db.Column(db.String(32), nullable=True)
+    server_ip = db.Column(db.Integer)
+    server_port = db.Column(db.Integer)
+    commit_hash = db.Column(db.String(40), nullable=True)
 
-    id = IntegerField(unique=True)
-    initialize_datetime = DateTimeField()
-    start_datetime = DateTimeField(null=True)
-    shutdown_datetime = DateTimeField(null=True)
-    end_datetime = DateTimeField(null=True)
-    server_ip = IntegerField()
-    server_port = SmallIntegerField()
-    commit_hash = CharField(max_length=40, null=True)
-    game_mode = CharField(max_length=32, null=True)
-    game_mode_result = CharField(max_length=64, null=True)
-    end_state = CharField(max_length=64, null=True)
-    map_name = CharField(max_length=32, null=True)
+    feedback = db.relationship(
+        "Feedback", backref="round", lazy="dynamic", uselist=True
+    )
+
+    def __repr__(self):
+        return f"<Round id={self.id} />"
+
+    def to_object(self):
+        return {
+            "id": self.id,
+            "initialize_datetime": self.initialize_datetime,
+            "start_datetime": self.start_datetime,
+            "shutdown_datetime": self.shutdown_datetime,
+            "end_datetime": self.end_datetime,
+            "commit_hash": self.commit_hash,
+            "game_mode": self.game_mode,
+            "game_mode_result": self.game_mode_result,
+            "end_state": self.end_state,
+            "map_name": self.map_name,
+            "ship_name": self.ship_name,
+        }
 
     @classmethod
     def get_recent(cls, days=7, limit=5):
@@ -39,26 +56,22 @@ class Round(DBModel):
         )
 
     @property
-    def feedback(self):
-        return Feedback.select().where(Feedback.round_id == self.id)
-
-    @property
     def merged_prs(self):
-        fb = self.feedback.where(Feedback.key_name == "testmerged_prs").first()
+        fb = self.feedback.filter(Round.feedback.key_name == "testmerged_prs").first()
         if not fb:
             return {}
         return fb.value
 
     @property
     def ship_name(self):
-        fb = self.feedback.where(Feedback.key_name == "ship_map").first()
+        fb = self.feedback.filter(Round.feedback.key_name == "ship_map").first()
         if not fb:
             return "UNSET"
         return fb.data[0]
 
     @property
     def round_stats(self):
-        fb = self.feedback.where(Feedback.key_name == "round_statistics").first()
+        fb = self.feedback.filter(Round.feedback.key_name == "round_statistics").first()
         if not fb:
             return {}
         return fb.value
@@ -89,3 +102,57 @@ class Round(DBModel):
         if not self.end_datetime or not self.start_datetime:
             return datetime.timedelta()
         return self.end_datetime - self.start_datetime
+
+
+class KeyTypeEnum(Enum):
+    TEXT = "text"
+    AMOUNT = "amount"
+    TALLY = "tally"
+    NESTED = "nested tally"
+    ASSOCIATIVE = "associative"
+
+
+class Feedback(db.Model):
+    __tablename__ = "feedback"
+    id = db.Column(db.Integer, primary_key=True)
+    datetime = db.Column(db.DateTime, nullable=True)
+    round_id = db.Column(db.Integer, db.ForeignKey("round.id"), nullable=False)
+    key_name = db.Column(db.String(32))
+    version = db.Column(db.Integer)
+    key_type = db.Column(db.Enum(KeyTypeEnum))
+    json = db.Column(db.Text())
+
+    @property
+    def data(self):
+        "Human readable status of the round"
+        return json.loads(self.json).get("data")
+
+    @property
+    def value(self):
+        return {
+            KeyTypeEnum.TEXT: self.text,
+            KeyTypeEnum.AMOUNT: self.amount,
+            KeyTypeEnum.TALLY: self.tally,
+            KeyTypeEnum.ASSOCIATIVE: self.assoc,
+            KeyTypeEnum.NESTED: self.data,
+        }[self.key_type]
+
+    @property
+    def is_nested(self):
+        return self.key_type != KeyTypeEnum.TEXT
+
+    @property
+    def text(self):
+        return ", ".join(self.data)
+
+    @property
+    def amount(self):
+        return self.data
+
+    @property
+    def tally(self):
+        return self.data
+
+    @property
+    def assoc(self):
+        return self.data

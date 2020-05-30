@@ -1,82 +1,92 @@
 {% extends "base.html" %}
 {% block header %}
-	Winrates
+Winrates
 {% endblock header %}
 {% block body %}
-	<hr />
-	<div>
+<hr />
+<div>
 
-		<canvas id="win-rate-chart" width="400" height="400"></canvas>
-		<script src='https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js'></script>	
-		<script>
-		const sortOrder = ['xeno', 'marine', 'other'];
-		const sortByLabel = (a, b) => {
-			const avalue = sortOrder.reduce((initial, val, idx) => {
-				if(a.label.toLowerCase().startsWith(val)) {
-					return idx;
-				}
-				return initial;
-			}, Infinity);
-			const bvalue = sortOrder.reduce((initial, val, idx) => {
-				if(b.label.toLowerCase().startsWith(val)) {
-					return idx;
-				} 
-				return initial;
-			}, Infinity);
-			return bvalue == avalue ? 0 : (bvalue < avalue ? 1 : -1);
-		}
+    <canvas id="win-rate-chart" width="400" height="400"></canvas>
+    <script src='https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js'></script>
+    <script>
+        Chart.defaults.global.defaultFontColor = 'white';
 
-		const datasets = [
-		{% for win_state, data in day_results.items() %}
-			{
-				backgroundColor: '{{colors[win_state]["background"]}}',
-				borderColor: '{{colors[win_state]["border"]}}',
-				data: [
-				{% for _, wins in data.items() %}
-					'{{wins}}',
-				{% endfor %}
+        const sortOrder = ['xeno', 'marine', 'other'];
+        const sortByLabel = (a, b) => {
+            const avalue = sortOrder.reduce((initial, val, idx) => {
+                if (a.label.toLowerCase().startsWith(val)) {
+                    return idx;
+                }
+                return initial;
+            }, Infinity);
+            const bvalue = sortOrder.reduce((initial, val, idx) => {
+                if (b.label.toLowerCase().startsWith(val)) {
+                    return idx;
+                }
+                return initial;
+            }, Infinity);
+            return bvalue == avalue ? 0 : (bvalue < avalue ? 1 : -1);
+        }
+
+        const datasets = [
+            {% for win_state, data in day_results.items() %}
+        {
+            backgroundColor: '{{colors[win_state]["background"]}}',
+                borderColor: '{{colors[win_state]["border"]}}',
+                    data: [
+                        {% for _, wins in data.items() %}
+        '{{wins}}',
+            {% endfor %}
 				],
-				label: '{{win_state}}',
+        label: '{{win_state}}',
 			},
-		{% endfor %}
+        {% endfor %}
 		].sort(sortByLabel);
 
-		const labels = [
-		{% for label in labels %}
-			'{{label}}',
-		{% endfor %}
+        const labels = [
+            {% for label in labels %}
+        '{{label}}',
+            {% endfor %}
 		]
 
-		const ctx = document.getElementById('win-rate-chart').getContext('2d');
-		var options = {
-			maintainAspectRatio: false,
-			spanGaps: false,
-			elements: {
-				line: {
-					tension: 0.000001
-				}
-			},
-			scales: {
-				yAxes: [{
-					stacked: true
-				}]
-			},
-			plugins: {
-				filler: {
-					propagate: false
-				},
-			}
-		};
+        const ctx = document.getElementById('win-rate-chart').getContext('2d');
+        var options = {
+            maintainAspectRatio: false,
+            spanGaps: false,
+            elements: {
+                line: {
+                    tension: 0.000001
+                }
+            },
+            scales: {
+                yAxes: [{
+                    stacked: true
+                }]
+            },
+            plugins: {
+                filler: {
+                    propagate: false
+                },
+            },
+            legend: {
+                labels: {
+                    fontColor: 'white',
+                }
+            },
+            axisX: {
+                labelFontColor: '#ccc',
+            }
+        };
 
-		var chart = new Chart(ctx, {
-			type: 'line',
-			data: {
-				labels: labels,
-				datasets: datasets
-			},
-			options: options
-		});
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: options
+        });
 
-		</script>
-	</div>
+    </script>
+</div>
 {% endblock body %}

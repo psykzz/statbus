@@ -31,7 +31,8 @@ def rolling_win_rates(game_states, rounds, period=7, granular_hours=24):
 def index():
     rounds = Round.select().order_by(Round.id.desc())
     pages = PaginatedQuery(rounds, 10)
-    return render_template("rounds/rounds.html", pages=pages)
+    return {"pages": pages.page}
+    # return render_template("rounds/rounds.html", pages=pages)
 
 
 @bp.route("/rounds/<int:round_id>")
@@ -66,7 +67,7 @@ def by_player(player_name):
 
 
 @bp.route("/rounds/winrates")
-@cache.cached()
+@cache.cached(query_string=True)
 def recent_winrates():
     colors_template = {
         "Xeno": ("rgb(147,112,219)", "rgb(138,43,226)"),
@@ -76,15 +77,24 @@ def recent_winrates():
 
     colors = {}
 
+    where_clauses = []
+
+    # Mode query
+    mode = request.args.get("mode", None)  # Cap at 30, so we don't hammer a db
+    if mode:
+        where_clauses.append(Round.game_mode == mode)
+
+    # Date range
     date_range = min(
         30, int(request.args.get("limit", 7))
     )  # Cap at 30, so we don't hammer a db
+    where_clauses.append(
+        Round.initialize_datetime > (datetime.now() - timedelta(days=date_range))
+    )
 
     rounds = (
-        Round.select()
-        .where(
-            Round.initialize_datetime > (datetime.now() - timedelta(days=date_range))
-        )
+        Round.select(Round.game_mode_result, Round.initialize_datetime)
+        .where(where_clauses)
         .order_by(Round.id.desc())
     )
 
@@ -96,6 +106,7 @@ def recent_winrates():
 
     today = date.today()
     time_periods = [today - timedelta(days=day) for day in date_range_iter]
+    _debug_results = {"xeno": 0, "marine": 0}
     day_results = {}
     for result in game_results:
         # Assign colours - need a better way
@@ -120,6 +131,14 @@ def recent_winrates():
                 and r.initialize_datetime.day == period.day
             ]
             day_results[result][period] = sum(wins)
+        _debug_results[result] = sum(
+            [1 for r in rounds if r.game_mode_result == result]
+        )
+        if result.startswith("Xeno"):
+            _debug_results["xeno"] += _debug_results[result]
+        if result.startswith("Marine"):
+            _debug_results["marine"] += _debug_results[result]
+    print(_debug_results)
 
     return render_template(
         "rounds/winrates.html",

@@ -15,6 +15,9 @@ DATABASE = {
     "passwd": os.getenv("DATABASE_PASSWORD", "password"),
 }
 
+SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{DATABASE["user"]}:{DATABASE["passwd"]}@{DATABASE["host"]}/{DATABASE["name"]}'
+SQLALCHEMY_ECHO = True
+
 SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
     SECRET_KEY = os.urandom(64)
@@ -29,6 +32,7 @@ CACHE_DIR = tempfile.mkdtemp()
 
 ## Session
 SESSION_TYPE = "filesystem"
+SESSION_PERMANENT = True
 SESSION_FILE_DIR = tempfile.mkdtemp()
 
 ## Redis

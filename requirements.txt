@@ -2,8 +2,8 @@ flask
 flask-caching
 flask-session
 flask-login
+flask_sqlalchemy
 newrelic
-peewee
 pygithub
 pymysql
 python-dotenv
