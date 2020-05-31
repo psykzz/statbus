@@ -1,6 +1,6 @@
 
-import { AppBar, Badge, createStyles, fade, IconButton, InputBase, makeStyles, Theme, Toolbar, Typography } from '@material-ui/core';
-import { AccountCircle, Mail, Notifications, Search } from '@material-ui/icons';
+import { AppBar, createStyles, fade, InputBase, makeStyles, Theme, Toolbar, Typography } from '@material-ui/core';
+import { Search } from '@material-ui/icons';
 import React from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>

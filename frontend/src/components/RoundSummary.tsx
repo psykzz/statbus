@@ -19,14 +19,14 @@ export const RoundSummary = ({ roundId }: any) => {
     alignItems="center" spacing={3}>
     <Grid item>
       <Typography variant="h5">
-        <Link onClick={() => push(`/round/${id}`)}>
+        <Link color="textSecondary" onClick={() => push(`/round/${id}`)}>
           #{id}
         </Link>
       </Typography>
     </Grid>
     <Grid item style={{ marginRight: 'auto' }}>
       <Typography>{game_mode} on {map_name} {ship_name}</Typography>
-      <Typography>{game_mode_result}</Typography>
+      <Typography variant="caption">{game_mode_result}</Typography>
     </Grid>
     <Grid item>
       <Typography>{players?.length ?? 0} Players </Typography>

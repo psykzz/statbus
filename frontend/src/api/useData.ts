@@ -8,8 +8,16 @@ export const useSummary = () => {
     return { rounds, polls, stats, ...rest };
 };
 
+export const useWinrates = () => {
+    const { data: { winrates = {} } = {}, ...rest } = useRequest<any>({
+        url: `/api/winrate`,
+    });
+
+    return { winrates, ...rest };
+};
+
 export const useRounds = ({ page, limit }: { page?: number, limit?: number }) => {
-    const { data: { rounds: rounds = [] } = {}, ...rest } = useRequest<any>({
+    const { data: { rounds = [] } = {}, ...rest } = useRequest<any>({
         url: `/api/rounds/${page ?? 1}?limit=${limit ?? 30}`,
     });
 

@@ -1,4 +1,4 @@
-import { Grid, makeStyles, Paper, Typography } from "@material-ui/core";
+import { Grid, makeStyles, Paper, Typography, List, ListItem, ListItemText, Box } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -24,21 +24,29 @@ export const Footer = () => {
         <Grid container
           justify="space-around"
           direction="row">
-          <div>
+          <Box>
             <Typography variant="h5">TerraGov Marine Corps</Typography>
             <img className={cx.tgmcLogo} src='https://tgstation13.org/wiki/images/thumb/9/96/TGMC_logo.png/160px-TGMC_logo.png' alt="tgmc logo" />
-          </div>
-          <div >
+          </Box>
+          <Box>
             <Typography variant="h5">Quick links</Typography>
-            <ul>
-              <li><Link to='/play'>Play now</Link></li>
-              <li><Link to='/'>Homepage</Link></li>
-              <li><Link to='/discord'>Discord</Link></li>
-              <li><Link to='/wiki'>Get Started</Link></li>
-            </ul>
-          </div>
+            <List component="nav" aria-label="main mailbox folders">
+              <ListItem button component="a" href="/play">
+                <ListItemText primary="Play now" />
+              </ListItem>
+              <ListItem button component="a" href="/">
+                <ListItemText primary="Home" />
+              </ListItem>
+              <ListItem button component="a" href="/discord">
+                <ListItemText primary="Discord" />
+              </ListItem>
+              <ListItem button component="a" href="/wiki">
+                <ListItemText primary="Get Started" />
+              </ListItem>
+            </List>
+          </Box>
         </Grid>
-        <div><Link to='/github'>TerraGov Marine Corps</Link> is a terrible game.</div>
+        <Box m={3}><Typography><Link to='/github'>TerraGov Marine Corps</Link> is a terrible game.</Typography></Box>
       </Grid>
     </Paper>
   );

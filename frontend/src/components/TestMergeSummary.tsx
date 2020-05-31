@@ -1,4 +1,4 @@
-import { List, Typography, Grid, Paper } from "@material-ui/core";
+import { List, Paper, Typography } from "@material-ui/core";
 import React from "react";
 import { usePullRequest, useRound } from "../api/useData";
 import { TestMergeItem } from "./TestMergeItem";
@@ -8,6 +8,7 @@ export const TestMergeSummary = ({ roundId, filterByLabels = [] }: any) => {
   const { data, isValidating: isValidatingPRData } = usePullRequest();
 
   const isValidating = isValidatingRound || isValidatingPRData;
+
 
   const filteredPullRequests = React.useMemo(() => {
     if (!data || !testmerged_prs) {
@@ -19,8 +20,12 @@ export const TestMergeSummary = ({ roundId, filterByLabels = [] }: any) => {
     // const hasIds = Object.keys(data);
     // const allPRNumbers = Object.keys(testmerged_prs);
     // const missingPrs = allPRNumbers.filter(pr => hasIds.indexOf(pr) === -1);
-    return Object.keys(testmerged_prs).map(id => pullRequestData[id])
-  }, [isValidating]);
+    return Object.keys(testmerged_prs).map(id => pullRequestData[id]).map((pr: any) => console.log({ pr }))
+  }, [data, testmerged_prs]);
+
+  if (isValidating) {
+    return null;
+  }
 
   return (
     <Paper>
