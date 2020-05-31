@@ -1,4 +1,4 @@
-import { Card, Grid, Typography } from "@material-ui/core";
+import { Card, Grid, Typography, Box } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import React from "react";
 import { useSummary } from "../api/useData";
@@ -33,15 +33,17 @@ export const ActivePolls = ({ viewMoreHandler }: { viewMoreHandler: Function }) 
 
   return (
     <Card style={styles.mainCard}>
-      <Grid container
-        direction="row"
-        justify="space-between"
-        alignItems="center">
-        <SectionTitle title="Active Polls" subtitle="Make sure to connect to the server to vote!" buttonText="View All" buttonAction={() => viewMoreHandler()} />
-      </Grid>
-      <Grid spacing={2} container>
-        {haveData ? summary : skeletons}
-      </Grid>
+      <Box p={1}>
+        <Grid container
+          direction="row"
+          justify="space-between"
+          alignItems="center">
+          <SectionTitle title="Active Polls" subtitle="Make sure to connect to the server to vote!" buttonText="View All" buttonAction={() => viewMoreHandler()} />
+        </Grid>
+        <Grid spacing={2} container>
+          {haveData ? summary : skeletons}
+        </Grid>
+      </Box>
     </Card>
   );
 }

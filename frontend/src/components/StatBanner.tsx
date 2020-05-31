@@ -4,7 +4,6 @@ import { useSummary, useWinrates } from "../api/useData";
 
 const useStyles = makeStyles({
   mainCard: {
-    backgroundColor: '#4E5D6C',
     padding: '50px',
     marginTop: '25px'
   }

@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Paper, Box } from "@material-ui/core";
 import React from "react";
 import { useRound } from "../api/useData";
 import { RoundDeaths } from "../components/RoundDeaths";
@@ -8,24 +8,26 @@ export const Round = ({ match }: any) => {
   const { params: { id } } = match;
   const { round } = useRound(id);
   return (
-    <Grid container
-      justify="space-between">
-      <Grid container item justify="flex-end">
+    <Box p={2}>
+      <Grid container
+        direction="column"
+        justify="space-between">
         <Grid item>
           <Typography variant="h3">Round #{round.id}</Typography>
         </Grid>
         <Grid item>
           <RoundDeaths roundId={id} />
         </Grid>
-        <Grid item>
-          <RoundStats roundId={id} />
+        <Grid container direction="row" justify="space-between">
+          <Grid item style={{ width: '45%' }}>
+            <RoundStats roundId={id} />
+          </Grid>
+          <Grid item style={{ width: '45%' }}>
+            <TestMergeSummary roundId={id} />
+          </Grid>
         </Grid>
       </Grid>
-      <Grid container item justify="space-between">
-        <Grid item>
-          <TestMergeSummary roundId={id} />
-        </Grid>
-      </Grid>
-    </Grid>
+    </Box>
+
   );
 }

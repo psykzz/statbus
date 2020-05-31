@@ -1,4 +1,4 @@
-import { Card, Grid, makeStyles, Typography } from "@material-ui/core";
+import { Card, Grid, makeStyles, Typography, Box } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import React from "react";
 import { useSummary } from "../api/useData";
@@ -9,7 +9,6 @@ import { SectionTitle } from "./SectionTitle";
 const useStyles = makeStyles({
   root: {},
   mainCard: {
-    backgroundColor: '#4E5D6C',
     padding: '10px',
     marginTop: '25px',
     marginBottom: '25px'
@@ -44,15 +43,17 @@ export const RecentRounds = ({ viewMoreHandler }: { viewMoreHandler: Function })
 
   return (
     <Card className={cx.mainCard}>
-      <Grid container
-        direction="row"
-        justify="space-between"
-        alignItems="center">
-        <SectionTitle title="Recent Rounds" subtitle="Only the last few rounds are shown" buttonText="View All" buttonAction={() => viewMoreHandler()} />
-      </Grid>
-      <Grid container spacing={2}>
-        {haveData ? summary : skeletons}
-      </Grid>
+      <Box p={1}>
+        <Grid container
+          direction="row"
+          justify="space-between"
+          alignItems="center">
+          <SectionTitle title="Recent Rounds" subtitle="Only the last few rounds are shown" buttonText="View All" buttonAction={() => viewMoreHandler()} />
+        </Grid>
+        <Grid container spacing={2}>
+          {haveData ? summary : skeletons}
+        </Grid>
+      </Box>
     </Card>
   );
 }

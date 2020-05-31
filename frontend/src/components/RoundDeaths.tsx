@@ -1,7 +1,6 @@
-import { Card, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
 import React from "react";
 import { useRound } from "../api/useData";
-import * as styles from '../styles/styles';
 export const RoundDeaths = ({ roundId }: any) => {
   const { round: { deaths = [] }, isValidating } = useRound(roundId);
 
@@ -10,7 +9,7 @@ export const RoundDeaths = ({ roundId }: any) => {
   }
 
   return (
-    <Card style={styles.mainCard}>
+    <Box p={2}>
       <Typography variant="h6">Deaths</Typography>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
@@ -32,10 +31,10 @@ export const RoundDeaths = ({ roundId }: any) => {
                 <TableCell align="right">{row.pod}</TableCell>
                 <TableCell align="right">{row.tod}</TableCell>
                 <TableCell align="right">
-                  <div>{row.bruteloss}</div>
-                  <div>{row.fireloss}</div>
-                  <div>{row.toxloss}</div>
-                  <div>{row.oxyloss}</div>
+                  <div>{row.bruteloss} bruteloss</div>
+                  <div>{row.fireloss} fireloss</div>
+                  <div>{row.toxloss} toxloss</div>
+                  <div>{row.oxyloss} oxyloss</div>
                   {/* <div>{row.brainloss}</div>
                   <div>{row.cloneloss}</div>
                   <div>{row.staminaloss}</div> */}
@@ -46,6 +45,6 @@ export const RoundDeaths = ({ roundId }: any) => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Card>
+    </Box>
   )
 }
