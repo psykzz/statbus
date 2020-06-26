@@ -50,6 +50,7 @@ class Round(db.Model):
             "ship_name": self.ship_name,
             "testmerged_prs": self.testmerged_prs,
             "round_stats": self.round_stats,
+            "balance": self.balance,
         }
 
     @classmethod
@@ -80,6 +81,13 @@ class Round(db.Model):
     @property
     def round_stats(self):
         fb = self.feedback.filter(Feedback.key_name == "round_statistics").first()
+        if not fb:
+            return {}
+        return fb.value
+
+    @property
+    def balance(self):
+        fb = self.feedback.filter(Feedback.key_name == "balance").first()
         if not fb:
             return {}
         return fb.value

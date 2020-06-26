@@ -67,10 +67,12 @@ def winrate():
     delta = min(90, request.args.get("delta", 7, int))
     showall = request.args.get("showall", False, bool)
     winrates = (
-        db.session.query(Round.game_mode_result, func.count(Round.game_mode_result))
+        db.session.query(
+            Round.game_mode_result, Round.game_mode, func.count(Round.game_mode_result)
+        )
         .filter(Round.end_datetime > datetime.now() - timedelta(days=delta))
         .filter(Round.map_name != "Whiskey Outpost")
-        .group_by(Round.game_mode_result)
+        .group_by(Round.game_mode_result, Round.game_mode)
         .all()
     )
 
@@ -81,12 +83,20 @@ def winrate():
         "Xenomorph Minor Victory",
     ]
 
+    summary, raw = {}, {}
+    for result, game_mode, wins in winrates:
+        if result is None or result not in valid_winrates and not showall:
+            continue
+        if game_mode not in raw:
+            raw[game_mode] = {}
+
+        if result not in summary:
+            summary[result] = 0
+        raw[game_mode][result] = wins
+        summary[result] += wins
     return {
-        "winrates": {
-            k: v
-            for k, v in winrates
-            if k is not None and k in valid_winrates or showall
-        },
+        "winrates": summary,
+        "by_gamemode": raw,
     }
 
 
@@ -195,11 +205,11 @@ def polls(page=1):
 @cache.memoize()
 def poll(poll_id):
     poll_info = PollQuestion.query.filter(Poll.id == poll_id).first()
-    if not poll_info or not poll_info.enddate:
+    if not poll_info:
         # We return 404 on rounds that haven't ended to ensure we don't give up too much information
         abort(404)
 
-    return {"round": poll_info.to_object(), "error": None}
+    return {"poll": poll_info.to_object(), "error": None}
 
 
 # @bp.route("/rounds/<string:player_name>")
