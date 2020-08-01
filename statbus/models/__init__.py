@@ -378,6 +378,7 @@ class Player(db.Model):
 
 class Ban(db.Model):
     __tablename__ = "ban"
+    id = db.Column(db.Integer, primary_key=True)
     a_ckey = db.Column(db.String(32))
     a_computerid = db.Column(db.String(32))
     a_ip = db.Column(db.Integer)
@@ -404,9 +405,10 @@ class Ban(db.Model):
     def to_object(self):
         return {
             "ckey": self.ckey,
-            "a_ckey": self.a_ckey,
+            "admin": self.a_ckey,
             "reason": self.reason,
             "bantime": self.bantime,
             "expiration_time": self.expiration_time,
+            "unbanned_datetime": self.unbanned_datetime,
             "role": self.role,
         }

@@ -6,6 +6,7 @@ from sqlalchemy import func
 
 from statbus.ext import cache, db
 from statbus.models import (
+    Ban,
     Round,
     Death,
     Connection,
