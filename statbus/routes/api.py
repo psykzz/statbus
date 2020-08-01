@@ -212,94 +212,30 @@ def poll(poll_id):
     return {"poll": poll_info.to_object(), "error": None}
 
 
-# @bp.route("/rounds/<string:player_name>")
-# @cache.memoize()
-# def by_player(player_name):
-#     player = Player.select().where(Player.ckey == player_name).first()
-#     if not player:
-#         abort(404)
+##
+# Get Specific Round
+#
+# Returns a specific round by ID
+##
+@bp.route("/bans")
+@bp.route("/bans/<int:page>")
+@cache.cached()
+def bans(page=1):
+    page = page - 1
+    per_page_limit = min(
+        100, int(request.args.get("limit", 30))
+    )  # Cap at 100, so we don't hammer a db
 
-#     pages = PaginatedQuery(player.rounds, 10)
-#     return render_template("rounds/rounds.html", pages=pages, for_player=player_name)
+    bans = (
+        Ban.query.order_by(Ban.id.desc())
+        .limit(per_page_limit)
+        .offset(per_page_limit * page)
+        .all()
+    )
 
-
-# @bp.route("/rounds/winrates")
-# @cache.cached(query_string=True)
-# def recent_winrates():
-#     colors_template = {
-#         "Xeno": ("rgb(147,112,219)", "rgb(138,43,226)"),
-#         "Marine": ("rgb(30,144,255)", "rgb(0,0,255)"),
-#         "default": ("rgb(211,211,211)", "rgb(175,175,175)"),
-#     }
-
-#     colors = {}
-
-#     where_clauses = []
-
-#     # Mode query
-#     mode = request.args.get("mode", None)  # Cap at 30, so we don't hammer a db
-#     if mode:
-#         where_clauses.append(Round.game_mode == mode)
-
-#     # Date range
-#     date_range = min(
-#         30, int(request.args.get("limit", 7))
-#     )  # Cap at 30, so we don't hammer a db
-#     where_clauses.append(
-#         Round.initialize_datetime > (datetime.now() - timedelta(days=date_range))
-#     )
-
-#     rounds = (
-#         Round.select(Round.game_mode_result, Round.initialize_datetime)
-#         .where(where_clauses)
-#         .order_by(Round.id.desc())
-#     )
-
-#     game_results = set(
-#         [r.game_mode_result for r in rounds if r.game_mode_result is not None]
-#     )
-
-#     date_range_iter = reversed(range(date_range))
-
-#     today = date.today()
-#     time_periods = [today - timedelta(days=day) for day in date_range_iter]
-#     _debug_results = {"xeno": 0, "marine": 0}
-#     day_results = {}
-#     for result in game_results:
-#         # Assign colours - need a better way
-#         if result not in colors:
-#             colors[result] = {}
-#             if result.startswith("Xeno"):
-#                 colors[result]["background"] = colors_template["Xeno"][0]
-#                 colors[result]["border"] = colors_template["Xeno"][1]
-#             elif result.startswith("Marine"):
-#                 colors[result]["background"] = colors_template["Marine"][0]
-#                 colors[result]["border"] = colors_template["Marine"][1]
-#             else:
-#                 colors[result]["background"] = colors_template["default"][0]
-#                 colors[result]["border"] = colors_template["default"][1]
-
-#         day_results[result] = {}
-#         for period in time_periods:
-#             wins = [
-#                 1
-#                 for r in rounds
-#                 if r.game_mode_result == result
-#                 and r.initialize_datetime.day == period.day
-#             ]
-#             day_results[result][period] = sum(wins)
-#         _debug_results[result] = sum(
-#             [1 for r in rounds if r.game_mode_result == result]
-#         )
-#         if result.startswith("Xeno"):
-#             _debug_results["xeno"] += _debug_results[result]
-#         if result.startswith("Marine"):
-#             _debug_results["marine"] += _debug_results[result]
-#     print(_debug_results)
-
-#     return render_template(
-#         "rounds/winrates.html",
-#         labels=time_periods,
-#         day_results=day_results,
-#         colors=colors,
-#     )
+    total_bans = math.ceil(Ban.query.count() / per_page_limit)
+    return {
+        "bans": {r.id: r.to_object() for r in bans},
+        "error": None,
+        "page": {"total": total_bans, "current": page, "per_page": per_page_limit},
+    }
