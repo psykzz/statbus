@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 
-# from statbus.models.util import db_wrapper
 from statbus.ext import cache, session, db
 from statbus.routes import api, auth
 
