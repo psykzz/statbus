@@ -227,16 +227,37 @@ def bans(page=1):
         100, int(request.args.get("limit", 30))
     )  # Cap at 100, so we don't hammer a db
 
-    bans = (
-        Ban.query.order_by(Ban.id.desc())
+    admin = request.args.get("admin", "")[:64]
+    ckey = request.args.get("ckey", "")[:64]
+    server_only = bool(request.args.get("server_only", False))
+    perma = bool(request.args.get("perma", False))
+
+    bans = Ban.query
+
+    if admin:
+        bans = bans.filter(Ban.a_ckey == admin)
+    if ckey:
+        bans = bans.filter(Ban.ckey == ckey)
+    if server_only:
+        bans = bans.filter(Ban.role == "Server")
+    if perma:
+        bans = bans.filter(Ban.expiration_time == None, Ban.unbanned_datetime == None)
+
+    ban_list = (
+        bans.order_by(Ban.id.desc())
         .limit(per_page_limit)
         .offset(per_page_limit * page)
         .all()
     )
 
-    total_bans = math.ceil(Ban.query.count() / per_page_limit)
+    total_bans = math.ceil(bans.count() / per_page_limit)
     return {
-        "bans": {r.id: r.to_object() for r in bans},
+        "bans": {r.id: r.to_object() for r in ban_list},
         "error": None,
-        "page": {"total": total_bans, "current": page, "per_page": per_page_limit},
+        "page": {
+            "total": total_bans,
+            "current": (page + 1),
+            "per_page": per_page_limit,
+        },
     }
+
