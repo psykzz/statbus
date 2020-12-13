@@ -16,7 +16,7 @@ export const AppRouter = () => {
         <Route exact path="/" component={Home} />
         {/* <Route path="/rounds" component={Rounds} /> */}
         <Route path="/round/:id" component={Round} />
-        <Route path="/polls" component={Polls} />
+        <Route path="/poll/:id" component={Polls} />
       </Switch>
     </Router>
   );
