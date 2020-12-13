@@ -205,7 +205,7 @@ def polls(page=1):
 @bp.route("/poll/<int:poll_id>")
 @cache.memoize()
 def poll(poll_id):
-    poll_info = PollQuestion.query.filter(Poll.id == poll_id).first()
+    poll_info = PollQuestion.query.filter(PollQuestion.id == poll_id).first()
     if not poll_info:
         # We return 404 on rounds that haven't ended to ensure we don't give up too much information
         abort(404)
