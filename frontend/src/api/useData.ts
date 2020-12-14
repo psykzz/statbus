@@ -32,6 +32,14 @@ export const useRound = (roundId: number) => {
     return { round, ...rest };
 };
 
+export const usePoll = (pollId: number) => {
+    const { data: { poll = {} } = {}, ...rest } = useRequest<any>({
+        url: `/api/poll/${pollId}`,
+    });
+
+    return { poll, ...rest };
+};
+
 export const usePullRequest = () => {
     const { data = [], ...rest } = useRequest<any>({
         url: `https://api.github.com/repos/tgstation/TerraGov-Marine-Corps/pulls`,

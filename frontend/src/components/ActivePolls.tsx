@@ -28,7 +28,7 @@ export const ActivePolls = ({ viewMoreHandler }: { viewMoreHandler: Function }) 
 
   const haveData = !isValidating || polls
   const summary = polls.length ?
-    polls.map((poll: any) => (<PollSummary {...poll} />))
+    polls.map((pollId: any) => (<PollSummary pollId={pollId} />))
     : <Grid item><Typography>There are no active polls right now.</Typography></Grid>
 
   return (
