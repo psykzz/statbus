@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 
-from statbus.ext import cache, session, db
+from statbus.ext import cache, cors, db, session
 from statbus.routes import api, auth
 
 
@@ -17,6 +17,7 @@ def create_app(test_config=None):
     session.init_app(app)
     cache.init_app(app)
     db.init_app(app)
+    cors.init_app(app)
 
     app.jinja_env.trim_blocks = True
     app.jinja_env.lstrip_blocks = True
