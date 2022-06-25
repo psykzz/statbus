@@ -220,7 +220,7 @@ def poll(poll_id):
 ##
 @bp.route("/bans")
 @bp.route("/bans/<int:page>")
-@cache.cached()
+@cache.memoize()
 def bans(page=1):
     page = page - 1
     per_page_limit = min(
