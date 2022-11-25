@@ -74,7 +74,7 @@ def summary():
 @bp.route("/winrate")
 @cache.cached(query_string=True)
 def winrate():
-    delta = min(90, request.args.get("delta", 7, int))
+    delta = min(14, request.args.get("delta", 7, int))
     showall = request.args.get("showall", False, bool)
     winrates = (
         db.session.query(
@@ -86,24 +86,46 @@ def winrate():
         .all()
     )
 
-    valid_winrates = [
+    default_valid_win_conditions = [
         "Marine Major Victory",
         "Marine Minor Victory",
         "Xenomorph Major Victory",
         "Xenomorph Minor Victory",
     ]
 
+    # some gamemodes like combatpatrol don't fight xenos.
+    valid_winrates_by_gamemode = {
+        "default": [
+            "Marine Major Victory",
+            "Marine Minor Victory",
+            "Xenomorph Major Victory",
+            "Xenomorph Minor Victory",
+        ],
+        "Combat Patrol": [
+            "Marine Major Victory",
+            "Marine Minor Victory",
+            "Sons of Mars Major Victory",
+            "Sons of Mars Minor Victory",
+        ]
+    }
+
     summary, raw = {}, {}
     for result, game_mode, wins in winrates:
+        valid_winrates = valid_winrates_by_gamemode.get(game_mode, default_valid_win_conditions)
         if result is None or result not in valid_winrates and not showall:
             continue
+
+        # Add to raw stats
         if game_mode not in raw:
             raw[game_mode] = {}
-
-        if result not in summary:
-            summary[result] = 0
         raw[game_mode][result] = wins
-        summary[result] += wins
+
+        # Default rates
+        if result in default_valid_win_conditions:
+            if result not in summary:
+                summary[result] = 0
+            summary[result] += wins
+
     return {
         "winrates": summary,
         "by_gamemode": raw,
