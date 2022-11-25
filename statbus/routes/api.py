@@ -24,6 +24,15 @@ from statbus.utils import github
 bp = Blueprint("api", __name__, url_prefix="/api")
 
 
+def cache_key():
+    args = flask.request.args
+    key = flask.request.path + '?' + urllib.urlencode([
+        (k, v) for k in sorted(args) for v in sorted(args.getlist(k))
+    ])
+    return key
+
+
+
 @bp.route("/session")
 @cache.cached()
 def userinfo():
@@ -220,7 +229,7 @@ def poll(poll_id):
 ##
 @bp.route("/bans")
 @bp.route("/bans/<int:page>")
-@cache.memoize()
+@cache.cached(key_prefix=cache_key)
 def bans(page=1):
     page = page - 1
     per_page_limit = min(
@@ -260,4 +269,3 @@ def bans(page=1):
             "per_page": per_page_limit,
         },
     }
-
