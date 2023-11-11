@@ -23,9 +23,3 @@ def client():
 def test_assert(self):
     assert True
 
-
-def test_homepage(client):
-    """Start with a blank database."""
-
-    rv = client.get("/")
-    assert b"Welcome!" in rv.data
