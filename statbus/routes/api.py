@@ -106,6 +106,18 @@ def winrate():
             "Marine Minor Victory",
             "Sons of Mars Major Victory",
             "Sons of Mars Minor Victory",
+        ],
+        "Campaign": [
+            "Marine Major Victory",
+            "Marine Minor Victory",
+            "Sons of Mars Major Victory",
+            "Sons of Mars Minor Victory",
+        ],
+        "Sensor Capture": [
+            "Marine Major Victory",
+            "Marine Minor Victory",
+            "Sons of Mars Major Victory",
+            "Sons of Mars Minor Victory",
         ]
     }
 
