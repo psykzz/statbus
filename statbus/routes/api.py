@@ -1,5 +1,5 @@
 import math
-import urllib
+import urllib.parse
 from datetime import date, datetime, timedelta
 
 from flask import Blueprint, render_template, request, abort, session, g
@@ -27,7 +27,7 @@ bp = Blueprint("api", __name__, url_prefix="/api")
 
 def cache_key():
     args = request.args
-    key = request.path + '?' + urllib.urlencode([
+    key = request.path + '?' + urllib.parse.urlencode([
         (k, v) for k in sorted(args) for v in sorted(args.getlist(k))
     ])
     return key
