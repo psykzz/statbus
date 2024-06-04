@@ -25,8 +25,8 @@ bp = Blueprint("api", __name__, url_prefix="/api")
 
 
 def cache_key():
-    args = flask.request.args
-    key = flask.request.path + '?' + urllib.urlencode([
+    args = request.args
+    key = request.path + '?' + urllib.urlencode([
         (k, v) for k in sorted(args) for v in sorted(args.getlist(k))
     ])
     return key
